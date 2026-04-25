@@ -1,0 +1,28 @@
+{
+  "category": "agent_service",
+  "title": "Agent release note drafter",
+  "summary": "Turns merged pull requests into release notes and buyer-ready changelog entries.",
+  "description": "Send a repository and commit range. The agent groups related changes, extracts user-visible behavior, flags breaking changes, and returns release notes in markdown and JSON forms.",
+  "tags": ["github", "release", "docs"],
+  "pricing_model": "quote_required",
+  "pricing_details": {
+    "starts_at_usd": 3,
+    "unit": "per release"
+  },
+  "invocation_method": "https",
+  "invocation_url": "https://example.com/agents/release-notes",
+  "contact_info": {
+    "email": "seller@example.com",
+    "url": "https://example.com/agents/release-notes"
+  },
+  "sample_input": {
+    "repo": "https://github.com/acme/app",
+    "from": "v1.2.0",
+    "to": "main"
+  },
+  "sample_output": {
+    "sections": ["Added", "Fixed", "Breaking changes"],
+    "markdown_url": "https://example.com/output/release.md"
+  },
+  "required_capabilities": ["github_read", "markdown_write"]
+}

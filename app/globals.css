@@ -1,0 +1,123 @@
+@import "tailwindcss";
+
+:root {
+  --background: oklch(0.973 0.014 96);
+  --foreground: oklch(0.18 0.025 120);
+  --muted: oklch(0.52 0.035 120);
+  --panel: oklch(0.99 0.01 96);
+  --panel-strong: oklch(0.945 0.018 96);
+  --line: oklch(0.84 0.026 105);
+  --accent: oklch(0.62 0.18 152);
+  --accent-dark: oklch(0.38 0.12 152);
+  --signal: oklch(0.69 0.15 61);
+  --ink: oklch(0.235 0.035 130);
+  --radius: 8px;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-host-grotesk);
+  --font-mono: var(--font-azeret-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-host-grotesk), ui-sans-serif, system-ui, sans-serif;
+}
+
+::selection {
+  background: color-mix(in oklch, var(--accent) 24%, transparent);
+}
+
+a {
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+.grain {
+  background-image:
+    linear-gradient(90deg, color-mix(in oklch, var(--line) 55%, transparent) 1px, transparent 1px),
+    linear-gradient(color-mix(in oklch, var(--line) 45%, transparent) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+.container-shell {
+  width: min(1180px, calc(100vw - 32px));
+  margin-inline: auto;
+}
+
+.button-primary,
+.button-secondary,
+.button-ghost {
+  min-height: 2.75rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: var(--radius);
+  padding: 0.7rem 1rem;
+  font-weight: 700;
+  transition:
+    transform 180ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease;
+}
+
+.button-primary {
+  background: var(--ink);
+  color: var(--background);
+}
+
+.button-primary:hover,
+.button-secondary:hover,
+.button-ghost:hover {
+  transform: translateY(-1px);
+}
+
+.button-secondary {
+  background: color-mix(in oklch, var(--accent) 16%, var(--panel));
+  color: var(--accent-dark);
+  border: 1px solid color-mix(in oklch, var(--accent) 36%, var(--line));
+}
+
+.button-ghost {
+  color: var(--foreground);
+  border: 1px solid var(--line);
+  background: color-mix(in oklch, var(--panel) 72%, transparent);
+}
+
+.card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: color-mix(in oklch, var(--panel) 92%, transparent);
+}
+
+.label {
+  font-family: var(--font-azeret-mono), ui-monospace, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.field {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--panel);
+  color: var(--foreground);
+  padding: 0.75rem 0.85rem;
+  outline: none;
+}
+
+.field:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in oklch, var(--accent) 18%, transparent);
+}
+
+@media (max-width: 720px) {
+  .container-shell {
+    width: min(100vw - 24px, 1180px);
+  }
+}
