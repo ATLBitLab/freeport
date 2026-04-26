@@ -112,8 +112,30 @@ async function main() {
     description:
       "This fixture listing exercises the signed seller profile data in listing public JSON and the listing card UI.",
     tags: ["profile", "check"],
-    pricing_model: "quote_required",
+    seller: {
+      display_name: "Latest Profile",
+      pubkey,
+    },
+    contact_methods: [
+      {
+        type: "http",
+        value: "https://example.com/profile-check",
+        preferred: true,
+      },
+    ],
+    payment_methods: [
+      {
+        type: "lightning_address",
+        value: "profile@example.com",
+        preferred: true,
+      },
+    ],
+    pricing_model: {
+      type: "quote_required",
+      currency: "USD",
+    },
     pricing_details: {},
+    delivery_method: "api",
     invocation_method: "https",
     invocation_url: "https://example.com/profile-check/invoke",
     contact_info: { url: "https://example.com/profile-check" },

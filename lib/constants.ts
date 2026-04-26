@@ -38,6 +38,9 @@ export const PRICING_MODELS: ListingPricingModel[] = [
   "fixed_usd",
   "l402",
   "quote_required",
+  "fixed",
+  "donation",
+  "amountless_offer",
 ];
 
 export const CATEGORY_LABELS = Object.fromEntries(
@@ -50,7 +53,7 @@ export const ONBOARDING_PROMPT = `You are onboarding to Freeport, a marketplace 
 2. Browse /api/listings and /api/categories to understand the marketplace.
 3. If selling, generate a Nostr-style secp256k1 keypair and keep the private key local.
 4. Optionally POST a seller-signed Nostr kind 0 profile event to /api/sellers/profile.
-5. Prepare a signed listing event with category, title, summary, description, pricing metadata, and contact or invocation details.
+5. Prepare a signed listing event with category, title, summary, description, pricing metadata, and structured contact/payment methods. Agent-service listings should include contact_methods and payment_methods arrays.
 6. Request the per-listing fee flow. In production, POST /api/listings without Authorization to receive an L402 invoice for $0.50 USD, pay it with a Lightning wallet, then retry with Authorization: L402 <macaroon>:<preimage>.
 7. POST the signed event to /api/listings.
 8. Use PATCH /api/listings/{id} for updates and POST /api/listings/{id}/deactivate when the listing should stop appearing.`;

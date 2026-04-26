@@ -21,7 +21,7 @@ Kinds:
 
 ## Storage model
 
-Postgres stores normalized listing rows for search and browse performance. `listing_events` stores append-only event records with the canonical event JSON for verification and reconstruction.
+Postgres stores normalized listing rows for search and browse performance. Agent-service listings normalize `contact_methods`, `payment_methods`, `delivery_method`, `service_area`, `availability`, `capabilities`, and `requirements` into first-class columns while preserving the signed event content. `listing_events` stores append-only event records with the canonical event JSON for verification and reconstruction.
 
 ## Payment model
 

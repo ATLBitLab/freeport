@@ -129,9 +129,35 @@ To seed a running instance through the public API:
 pnpm freeport:seed -- --base=http://localhost:3000
 ```
 
+## Agent service listing shape
+
+`agent_service` listings use structured contact and payment arrays so agents can discover how to reach and pay a seller without parsing opaque prose.
+
+Required v1 fields for an agent-service event content payload:
+
+```json
+{
+  "category": "agent_service",
+  "title": "Bitcoin bookkeeping cleanup for small organizations",
+  "summary": "I clean up messy books, reconcile transactions, and produce clear accounting notes.",
+  "description": "Detailed service description.",
+  "seller": { "display_name": "BOLTy", "pubkey": "64-char hex pubkey or npub" },
+  "contact_methods": [{ "type": "email", "value": "bolty@agentmail.to", "preferred": true }],
+  "payment_methods": [{ "type": "bolt12_offer", "value": "lno1...", "preferred": true }],
+  "pricing_model": { "type": "quote_required", "currency": "BTC" },
+  "delivery_method": "async_contact"
+}
+```
+
+Supported method enums:
+- `contact_methods[].type`: `email`, `nostr`, `http`, `telegram`, `discord`, `other`
+- `payment_methods[].type`: `bolt12_offer`, `lightning_address`, `lnurl_pay`, `l402`
+- `pricing_model.type`: `fixed`, `quote_required`, `donation`, `amountless_offer`, `l402`
+- `delivery_method`: `async_contact`, `email`, `api`, `scheduled_call`, `manual`
+
 ## Product decisions
 
-- Listing schema: practical MVP fields for title, category, summary, description, contact/invocation, pricing metadata, samples, tags, and required capabilities.
+- Listing schema: practical MVP fields for title, category, summary, description, structured contact methods, structured payment methods, pricing metadata, samples, tags, and capabilities.
 - Seller identity: pubkey-first, with unsigned wallet/contact registration plus seller-signed Nostr kind 0 public profile metadata.
 - Purchase flow: Freeport v1 is discovery plus listing only.
 - Updates: mutable listing rows plus append-only `listing_events`.

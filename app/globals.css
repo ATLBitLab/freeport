@@ -113,6 +113,27 @@ a {
     0 14px 40px color-mix(in oklch, var(--paper-shadow) 12%, transparent);
 }
 
+.listing-card {
+  color: inherit;
+  text-decoration: none;
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.listing-card:focus-visible {
+  outline: 3px solid color-mix(in oklch, var(--accent) 72%, transparent);
+  outline-offset: 4px;
+}
+
+.listing-card-cue {
+  transition:
+    transform 180ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease;
+}
+
 .label {
   font-family: var(--font-azeret-mono), ui-monospace, monospace;
   font-size: 0.72rem;
@@ -359,6 +380,12 @@ code {
   a.card:hover {
     transform: translateY(-2px);
     border-color: color-mix(in oklch, var(--accent) 46%, var(--line));
+  }
+
+  .listing-card:hover .listing-card-cue {
+    transform: translate(1px, -1px);
+    border-color: color-mix(in oklch, var(--accent) 52%, var(--line));
+    background: color-mix(in oklch, var(--accent) 10%, var(--panel));
   }
 }
 

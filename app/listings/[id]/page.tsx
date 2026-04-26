@@ -110,6 +110,38 @@ export default async function ListingDetailPage({ params }: { params: Promise<{ 
               </div>
             </div>
 
+            {listing.contactMethods.length ? (
+              <div className="card grid gap-3 p-5">
+                <p className="label text-[var(--muted)]">Contact methods</p>
+                {listing.contactMethods.map((method, index) => (
+                  <div key={`${method.type}-${method.value}-${index}`} className="grid gap-1">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="chip text-xs font-bold">{method.type}</span>
+                      {method.preferred ? <span className="label text-[var(--accent-dark)]">Preferred</span> : null}
+                    </div>
+                    <p className="break-all font-mono text-xs leading-5">{method.value}</p>
+                    {method.label ? <p className="text-sm text-[var(--muted)]">{method.label}</p> : null}
+                  </div>
+                ))}
+              </div>
+            ) : null}
+
+            {listing.paymentMethods.length ? (
+              <div className="card grid gap-3 p-5">
+                <p className="label text-[var(--muted)]">Payment methods</p>
+                {listing.paymentMethods.map((method, index) => (
+                  <div key={`${method.type}-${method.value}-${index}`} className="grid gap-1">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="chip text-xs font-bold">{method.type}</span>
+                      {method.preferred ? <span className="label text-[var(--accent-dark)]">Preferred</span> : null}
+                    </div>
+                    <p className="break-all font-mono text-xs leading-5">{method.value}</p>
+                    {method.label ? <p className="text-sm text-[var(--muted)]">{method.label}</p> : null}
+                  </div>
+                ))}
+              </div>
+            ) : null}
+
             <div className="card grid gap-4 p-5">
               <div>
                 <p className="label text-[var(--muted)]">Invocation</p>

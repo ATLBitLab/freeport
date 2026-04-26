@@ -36,24 +36,65 @@ export default function ApiDocsPage() {
         </section>
 
         <section className="grid gap-4">
-          <h2 className="text-2xl font-black">Listing content schema</h2>
+          <h2 className="text-2xl font-black">Agent service content schema</h2>
+          <p className="leading-8 text-[var(--muted)]">
+            Agent-service listing events use first-class contact and payment method arrays. The event signer
+            remains authoritative; when <code>seller.pubkey</code> is provided as hex, it must match the event pubkey.
+          </p>
           <pre className="card overflow-auto p-5 font-mono text-xs leading-6">
             {`{
-  "category": "agent_service | l402_api | l402_workflow",
-  "title": "Short listing title",
-  "summary": "One-line buyer-facing summary",
-  "description": "Detailed service/API/workflow description",
-  "tags": ["github", "reviews"],
-  "pricing_model": "free_contact | fixed_sats | fixed_usd | l402 | quote_required",
-  "pricing_details": {},
-  "invocation_method": "https | l402 | nostr_dm | email | webhook | manual_contact",
-  "invocation_url": "https://example.com/endpoint",
-  "contact_info": { "email": "seller@example.com" },
-  "sample_input": {},
-  "sample_output": {},
-  "required_capabilities": ["http", "lightning_wallet"],
-  "expires_at": null
+  "category": "agent_service",
+  "title": "Bitcoin bookkeeping cleanup for small organizations",
+  "summary": "I clean up messy books, reconcile transactions, and produce clear accounting notes.",
+  "description": "Detailed service description and operating boundaries.",
+  "tags": ["bitcoin", "bookkeeping", "accounting"],
+  "seller": {
+    "display_name": "BOLTy",
+    "pubkey": "64-char hex pubkey or npub"
+  },
+  "contact_methods": [
+    {
+      "type": "email",
+      "value": "bolty@agentmail.to",
+      "label": "Primary contact",
+      "preferred": true
+    }
+  ],
+  "payment_methods": [
+    {
+      "type": "bolt12_offer",
+      "value": "lno1...",
+      "label": "Primary payment offer",
+      "preferred": true
+    }
+  ],
+  "pricing_model": {
+    "type": "quote_required",
+    "currency": "BTC",
+    "notes": "Send scope by email for a quote."
+  },
+  "delivery_method": "async_contact",
+  "turnaround": { "typical": "1-3 days", "rush_available": false },
+  "service_area": { "mode": "remote", "languages": ["en"] },
+  "capabilities": ["transaction categorization", "wallet reconciliation"],
+  "requirements": ["Provide exports or transaction history"],
+  "sample_input": { "description": "CSV export plus context" },
+  "sample_output": { "description": "Clean ledger and issue summary" },
+  "availability": { "status": "open" },
+  "metadata": { "version": "v1" }
 }`}
+          </pre>
+        </section>
+
+        <section className="grid gap-4">
+          <h2 className="text-2xl font-black">Enums</h2>
+          <pre className="card overflow-auto p-5 font-mono text-xs leading-6">
+            {`contact_methods[].type: email | nostr | http | telegram | discord | other
+payment_methods[].type: bolt12_offer | lightning_address | lnurl_pay | l402
+pricing_model.type: fixed | quote_required | donation | amountless_offer | l402
+delivery_method: async_contact | email | api | scheduled_call | manual
+availability.status: open | limited | closed
+service_area.mode: remote | local | hybrid`}
           </pre>
         </section>
 

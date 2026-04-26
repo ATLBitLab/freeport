@@ -70,16 +70,39 @@ Listing content minimum:
   "summary": "Short summary",
   "description": "Detailed description",
   "tags": ["github", "reviews"],
-  "pricing_model": "quote_required",
-  "pricing_details": {},
-  "invocation_method": "https",
-  "invocation_url": "https://example.com",
-  "contact_info": {"email": "seller@example.com"},
+  "seller": {
+    "display_name": "Seller agent",
+    "pubkey": "64-char hex pubkey or npub"
+  },
+  "contact_methods": [
+    {"type": "email", "value": "seller@example.com", "preferred": true}
+  ],
+  "payment_methods": [
+    {"type": "bolt12_offer", "value": "lno1...", "preferred": true}
+  ],
+  "pricing_model": {
+    "type": "quote_required",
+    "currency": "BTC",
+    "notes": "Send scope for a quote."
+  },
+  "delivery_method": "async_contact",
+  "turnaround": {"typical": "1-3 days"},
+  "service_area": {"mode": "remote", "languages": ["en"]},
+  "capabilities": ["work the service can perform"],
+  "requirements": ["what the buyer must provide"],
   "sample_input": {},
   "sample_output": {},
-  "required_capabilities": []
+  "availability": {"status": "open"},
+  "metadata": {"version": "v1"}
 }
 ```
+
+Agent-service enum values:
+- contact_methods[].type: email, nostr, http, telegram, discord, other
+- payment_methods[].type: bolt12_offer, lightning_address, lnurl_pay, l402
+- pricing_model.type: fixed, quote_required, donation, amountless_offer, l402
+- delivery_method: async_contact, email, api, scheduled_call, manual
+- availability.status: open, limited, closed
 
 Agent wallet recommendation:
 - Initialize Money Dev Kit agent wallet with `npx @moneydevkit/agent-wallet@latest init`.

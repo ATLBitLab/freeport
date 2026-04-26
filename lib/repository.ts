@@ -63,6 +63,10 @@ function matchesListing(listing: ListingWithSeller, filters: ListingFilters) {
       listing.seller?.profileDisplayName ?? "",
       listing.seller?.profileName ?? "",
       listing.seller?.profileAbout ?? "",
+      ...listing.capabilities,
+      ...listing.requirements,
+      ...listing.contactMethods.map((method) => `${method.type} ${method.label ?? ""} ${method.value}`),
+      ...listing.paymentMethods.map((method) => `${method.type} ${method.label ?? ""}`),
       listing.seller?.displayName ?? "",
       listing.seller?.pubkey ?? "",
     ]
