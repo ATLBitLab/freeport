@@ -7,7 +7,12 @@ import { listingToPublicJson } from "@/lib/event-mapping";
 import { verifyNostrEvent } from "@/lib/nostr";
 import { getRepository } from "@/lib/repository";
 import type { ListingCategory, ListingFeePayment } from "@/lib/types";
-import { CreateListingRequestSchema, ListingCategorySchema, parseListingContent } from "@/lib/validation";
+import {
+  assertListingSellerMatchesSigner,
+  CreateListingRequestSchema,
+  ListingCategorySchema,
+  parseListingContent,
+} from "@/lib/validation";
 
 export async function GET(request: Request) {
   const url = new URL(request.url);
@@ -59,7 +64,8 @@ async function createListing(request: Request) {
       );
     }
 
-    parseListingContent(parsed.event.content);
+    const content = parseListingContent(parsed.event.content);
+    assertListingSellerMatchesSigner(content, parsed.event.pubkey);
 
     let payment: ListingFeePayment | null = null;
 

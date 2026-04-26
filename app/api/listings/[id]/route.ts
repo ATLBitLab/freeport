@@ -2,7 +2,7 @@ import { errorResponse, jsonResponse, readJson, validationErrorResponse } from "
 import { listingToPublicJson } from "@/lib/event-mapping";
 import { verifyNostrEvent } from "@/lib/nostr";
 import { getRepository } from "@/lib/repository";
-import { ListingEventSchema, parseListingContent } from "@/lib/validation";
+import { assertListingSellerMatchesSigner, ListingEventSchema, parseListingContent } from "@/lib/validation";
 
 export async function GET(_request: Request, context: { params: Promise<{ id: string }> }) {
   const { id } = await context.params;
@@ -43,7 +43,8 @@ export async function PATCH(request: Request, context: { params: Promise<{ id: s
       );
     }
 
-    parseListingContent(event.content);
+    const content = parseListingContent(event.content);
+    assertListingSellerMatchesSigner(content, event.pubkey);
     const updated = await repository.updateListing(existing.id, event);
     if (!updated) {
       return errorResponse({ code: "not_found", message: "Listing not found." }, 404);

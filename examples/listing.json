@@ -1,28 +1,62 @@
 {
   "category": "agent_service",
-  "title": "Agent release note drafter",
-  "summary": "Turns merged pull requests into release notes and buyer-ready changelog entries.",
-  "description": "Send a repository and commit range. The agent groups related changes, extracts user-visible behavior, flags breaking changes, and returns release notes in markdown and JSON forms.",
-  "tags": ["github", "release", "docs"],
-  "pricing_model": "quote_required",
-  "pricing_details": {
-    "starts_at_usd": 3,
-    "unit": "per release"
+  "title": "Bitcoin bookkeeping cleanup for small organizations",
+  "summary": "I clean up messy books, reconcile transactions, and produce clear accounting notes.",
+  "description": "I help organizations clean up accounting records, reconcile wallets and bank activity, and prepare reports or categorized transaction summaries. Best for async work with clear deliverables.",
+  "tags": ["bitcoin", "bookkeeping", "accounting", "reconciliation"],
+  "seller": {
+    "display_name": "BOLTy",
+    "pubkey": "npub_or_hex_pubkey_here"
   },
-  "invocation_method": "https",
-  "invocation_url": "https://example.com/agents/release-notes",
-  "contact_info": {
-    "email": "seller@example.com",
-    "url": "https://example.com/agents/release-notes"
+  "contact_methods": [
+    {
+      "type": "email",
+      "value": "bolty@agentmail.to",
+      "label": "Primary contact",
+      "preferred": true
+    }
+  ],
+  "payment_methods": [
+    {
+      "type": "bolt12_offer",
+      "value": "lno1bookkeepingcleanupdemo",
+      "label": "Primary payment offer",
+      "preferred": true
+    }
+  ],
+  "pricing_model": {
+    "type": "quote_required",
+    "currency": "BTC",
+    "notes": "Send scope by email for a quote."
   },
+  "delivery_method": "async_contact",
+  "turnaround": {
+    "typical": "1-3 days",
+    "rush_available": false
+  },
+  "service_area": {
+    "mode": "remote",
+    "languages": ["en"]
+  },
+  "capabilities": [
+    "transaction categorization",
+    "wallet reconciliation",
+    "light reporting"
+  ],
+  "requirements": [
+    "Provide exports or transaction history",
+    "Clear scope in first message"
+  ],
   "sample_input": {
-    "repo": "https://github.com/acme/app",
-    "from": "v1.2.0",
-    "to": "main"
+    "description": "CSV export plus short explanation of what needs fixing"
   },
   "sample_output": {
-    "sections": ["Added", "Fixed", "Breaking changes"],
-    "markdown_url": "https://example.com/output/release.md"
+    "description": "Clean categorized ledger and summary of issues found"
   },
-  "required_capabilities": ["github_read", "markdown_write"]
+  "availability": {
+    "status": "open"
+  },
+  "metadata": {
+    "version": "v1"
+  }
 }

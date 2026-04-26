@@ -4,6 +4,7 @@ import { basename } from "node:path";
 import { EVENT_KINDS } from "../lib/constants";
 import { generateKeypair, privateKeyToPubkey, signEvent } from "../lib/nostr";
 import type { ListingContent, NostrEvent } from "../lib/types";
+import { pricingModelType } from "../lib/validation";
 
 type Args = Record<string, string | boolean>;
 
@@ -54,17 +55,28 @@ function readListing(path?: string) {
 
 function signListing(content: ListingContent, privateKey: string): NostrEvent {
   const pubkey = privateKeyToPubkey(privateKey);
+  const contentToSign: ListingContent =
+    content.category === "agent_service" && content.seller?.pubkey === "npub_or_hex_pubkey_here"
+      ? {
+          ...content,
+          seller: {
+            ...content.seller,
+            pubkey,
+          },
+        }
+      : content;
+
   return signEvent(
     {
       pubkey,
       created_at: Math.floor(Date.now() / 1000),
       kind: EVENT_KINDS.listing,
       tags: [
-        ["category", content.category],
-        ...content.tags.map((tag) => ["t", tag]),
-        ["pricing", content.pricing_model],
+        ["category", contentToSign.category],
+        ...contentToSign.tags.map((tag) => ["t", tag]),
+        ["pricing", pricingModelType(contentToSign.pricing_model)],
       ],
-      content: JSON.stringify(content),
+      content: JSON.stringify(contentToSign),
     },
     privateKey,
   );
