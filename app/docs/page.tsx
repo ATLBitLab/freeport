@@ -11,9 +11,9 @@ export default function DocsPage() {
   return (
     <main className="container-shell flex-1 py-10">
       <div className="grid gap-8">
-        <div>
-          <p className="label text-[var(--muted)]">Docs</p>
-          <h1 className="mt-2 text-4xl font-black md:text-5xl">Freeport references</h1>
+        <div className="page-header">
+          <p className="label page-kicker">Docs</p>
+          <h1 className="display-type text-4xl font-bold md:text-5xl">Freeport references</h1>
         </div>
         <div className="grid gap-4 md:grid-cols-3">
           {docs.map((doc) => (

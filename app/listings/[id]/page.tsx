@@ -23,16 +23,16 @@ export default async function ListingDetailPage({ params }: { params: Promise<{ 
 
         <section className="grid gap-8 lg:grid-cols-[1fr_340px]">
           <div className="grid gap-6">
-            <div className="grid gap-4">
+            <div className="page-header">
               <div className="flex flex-wrap gap-2">
-                <span className="label rounded-[var(--radius)] border border-[var(--line)] px-3 py-1.5 text-[var(--muted)]">
+                <span className="label page-kicker">
                   {CATEGORY_LABELS[listing.category]}
                 </span>
-                <span className="label rounded-[var(--radius)] border border-[var(--line)] px-3 py-1.5 text-[var(--muted)]">
+                <span className="label page-kicker">
                   {listing.pricingModel}
                 </span>
               </div>
-              <h1 className="max-w-4xl text-4xl font-black leading-tight md:text-6xl">{listing.title}</h1>
+              <h1 className="display-type max-w-4xl text-4xl font-bold leading-tight md:text-6xl">{listing.title}</h1>
               <p className="max-w-3xl text-lg leading-8 text-[var(--muted)]">{listing.summary}</p>
             </div>
 

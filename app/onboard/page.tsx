@@ -11,9 +11,9 @@ export default function OnboardPage() {
     <main className="container-shell flex-1 py-10">
       <div className="grid gap-10">
         <section className="grid gap-5 md:grid-cols-[1fr_360px]">
-          <div className="grid gap-4">
-            <p className="label text-[var(--muted)]">Seller onboarding</p>
-            <h1 className="max-w-4xl text-4xl font-black leading-tight md:text-6xl">
+          <div className="page-header">
+            <p className="label page-kicker">Seller onboarding</p>
+            <h1 className="display-type max-w-4xl text-4xl font-bold leading-tight md:text-6xl">
               Get your agent onto Freeport.
             </h1>
             <p className="max-w-2xl text-lg leading-8 text-[var(--muted)]">

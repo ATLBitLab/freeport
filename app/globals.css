@@ -1,16 +1,20 @@
 @import "tailwindcss";
 
 :root {
-  --background: oklch(0.973 0.014 96);
-  --foreground: oklch(0.18 0.025 120);
-  --muted: oklch(0.52 0.035 120);
-  --panel: oklch(0.99 0.01 96);
-  --panel-strong: oklch(0.945 0.018 96);
-  --line: oklch(0.84 0.026 105);
-  --accent: oklch(0.62 0.18 152);
-  --accent-dark: oklch(0.38 0.12 152);
-  --signal: oklch(0.69 0.15 61);
-  --ink: oklch(0.235 0.035 130);
+  --background: oklch(0.966 0.018 88);
+  --foreground: oklch(0.185 0.027 106);
+  --muted: oklch(0.47 0.035 112);
+  --panel: oklch(0.988 0.012 87);
+  --panel-strong: oklch(0.926 0.024 87);
+  --line: oklch(0.77 0.033 94);
+  --accent: oklch(0.62 0.13 72);
+  --accent-dark: oklch(0.36 0.084 70);
+  --signal: oklch(0.59 0.14 38);
+  --sea: oklch(0.52 0.075 188);
+  --sea-dark: oklch(0.29 0.05 191);
+  --ink: oklch(0.22 0.025 103);
+  --ink-strong: oklch(0.145 0.02 101);
+  --paper-shadow: oklch(0.62 0.035 86);
   --radius: 8px;
 }
 
@@ -22,9 +26,14 @@
 }
 
 body {
-  background: var(--background);
+  background:
+    linear-gradient(90deg, color-mix(in oklch, var(--line) 16%, transparent) 1px, transparent 1px),
+    linear-gradient(color-mix(in oklch, var(--line) 13%, transparent) 1px, transparent 1px),
+    var(--background);
+  background-size: 40px 40px, 40px 40px, auto;
   color: var(--foreground);
   font-family: var(--font-host-grotesk), ui-sans-serif, system-ui, sans-serif;
+  font-kerning: normal;
 }
 
 ::selection {
@@ -38,9 +47,10 @@ a {
 
 .grain {
   background-image:
-    linear-gradient(90deg, color-mix(in oklch, var(--line) 55%, transparent) 1px, transparent 1px),
-    linear-gradient(color-mix(in oklch, var(--line) 45%, transparent) 1px, transparent 1px);
-  background-size: 32px 32px;
+    repeating-linear-gradient(135deg, color-mix(in oklch, var(--line) 26%, transparent) 0 1px, transparent 1px 12px),
+    linear-gradient(90deg, color-mix(in oklch, var(--line) 42%, transparent) 1px, transparent 1px),
+    linear-gradient(color-mix(in oklch, var(--line) 36%, transparent) 1px, transparent 1px);
+  background-size: auto, 36px 36px, 36px 36px;
 }
 
 .container-shell {
@@ -59,15 +69,19 @@ a {
   border-radius: var(--radius);
   padding: 0.7rem 1rem;
   font-weight: 700;
+  text-decoration: none;
   transition:
     transform 180ms ease,
     background-color 180ms ease,
-    border-color 180ms ease;
+    border-color 180ms ease,
+    box-shadow 180ms ease;
 }
 
 .button-primary {
-  background: var(--ink);
+  background: var(--ink-strong);
   color: var(--background);
+  border: 1px solid color-mix(in oklch, var(--accent) 34%, var(--ink-strong));
+  box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--accent) 18%, transparent);
 }
 
 .button-primary:hover,
@@ -77,21 +91,26 @@ a {
 }
 
 .button-secondary {
-  background: color-mix(in oklch, var(--accent) 16%, var(--panel));
+  background: color-mix(in oklch, var(--accent) 18%, var(--panel));
   color: var(--accent-dark);
-  border: 1px solid color-mix(in oklch, var(--accent) 36%, var(--line));
+  border: 1px solid color-mix(in oklch, var(--accent) 52%, var(--line));
 }
 
 .button-ghost {
   color: var(--foreground);
   border: 1px solid var(--line);
-  background: color-mix(in oklch, var(--panel) 72%, transparent);
+  background: color-mix(in oklch, var(--panel) 80%, transparent);
 }
 
 .card {
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  background: color-mix(in oklch, var(--panel) 92%, transparent);
+  background:
+    linear-gradient(180deg, color-mix(in oklch, var(--panel) 96%, transparent), color-mix(in oklch, var(--panel-strong) 46%, var(--panel))),
+    var(--panel);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in oklch, var(--panel) 78%, transparent),
+    0 14px 40px color-mix(in oklch, var(--paper-shadow) 12%, transparent);
 }
 
 .label {
@@ -105,19 +124,260 @@ a {
   width: 100%;
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  background: var(--panel);
+  background: color-mix(in oklch, var(--panel) 88%, var(--background));
   color: var(--foreground);
   padding: 0.75rem 0.85rem;
   outline: none;
 }
 
+.field.pl-10 {
+  padding-left: 2.5rem;
+}
+
 .field:focus {
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px color-mix(in oklch, var(--accent) 18%, transparent);
+  box-shadow: 0 0 0 3px color-mix(in oklch, var(--accent) 22%, transparent);
+}
+
+.display-type {
+  font-family: var(--font-display), var(--font-host-grotesk), ui-serif, serif;
+  letter-spacing: 0;
+}
+
+.site-shell {
+  background:
+    linear-gradient(180deg, color-mix(in oklch, var(--ink-strong) 96%, var(--sea-dark)), color-mix(in oklch, var(--ink) 92%, var(--sea-dark)));
+  color: var(--background);
+}
+
+.nav-brand-mark {
+  background: color-mix(in oklch, var(--accent) 22%, var(--ink-strong));
+  color: var(--background);
+  box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--accent) 50%, transparent);
+}
+
+.nav-link {
+  color: color-mix(in oklch, var(--background) 88%, var(--accent));
+  border-color: color-mix(in oklch, var(--background) 18%, transparent);
+  background: color-mix(in oklch, var(--background) 5%, transparent);
+}
+
+.nav-link:hover {
+  background: color-mix(in oklch, var(--background) 10%, transparent);
+}
+
+.nav-cta {
+  color: var(--ink-strong);
+  background: var(--accent);
+  border-color: color-mix(in oklch, var(--accent) 72%, var(--background));
+}
+
+.nav-secondary {
+  display: none;
+}
+
+@media (min-width: 40rem) {
+  .nav-secondary {
+    display: inline-flex;
+  }
+}
+
+.page-header {
+  position: relative;
+  display: grid;
+  gap: 0.75rem;
+  padding: clamp(2rem, 5vw, 4rem);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: calc(var(--radius) * 1.25);
+  background:
+    linear-gradient(120deg, color-mix(in oklch, var(--panel) 96%, transparent), color-mix(in oklch, var(--panel-strong) 58%, var(--panel))),
+    var(--panel);
+}
+
+.page-header::after,
+.manifest-plate::after {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image:
+    linear-gradient(90deg, color-mix(in oklch, var(--line) 20%, transparent) 1px, transparent 1px),
+    linear-gradient(color-mix(in oklch, var(--line) 18%, transparent) 1px, transparent 1px);
+  background-size: 28px 28px;
+  mask-image: linear-gradient(120deg, transparent 12%, black 45%, transparent 88%);
+}
+
+.page-header > *,
+.manifest-plate > * {
+  position: relative;
+  z-index: 1;
+}
+
+.page-kicker {
+  width: max-content;
+  max-width: 100%;
+  border: 1px solid color-mix(in oklch, var(--accent) 42%, var(--line));
+  border-radius: 999px;
+  background: color-mix(in oklch, var(--accent) 10%, var(--panel));
+  padding: 0.35rem 0.7rem;
+  color: var(--accent-dark);
+}
+
+.port-hero {
+  position: relative;
+  overflow: hidden;
+}
+
+.port-hero::before {
+  content: "FREEPORT";
+  pointer-events: none;
+  position: absolute;
+  right: clamp(1rem, 5vw, 4rem);
+  bottom: -0.16em;
+  z-index: 0;
+  font-family: var(--font-display), serif;
+  font-size: 13rem;
+  line-height: 1;
+  color: color-mix(in oklch, var(--accent) 9%, transparent);
+  letter-spacing: 0;
+}
+
+.port-hero > * {
+  position: relative;
+  z-index: 1;
+}
+
+.manifest-plate {
+  position: relative;
+  display: grid;
+  gap: 1rem;
+  overflow: hidden;
+  border: 1px solid color-mix(in oklch, var(--accent) 40%, var(--line));
+  border-radius: calc(var(--radius) * 1.5);
+  background:
+    repeating-linear-gradient(0deg, color-mix(in oklch, var(--line) 16%, transparent) 0 1px, transparent 1px 14px),
+    linear-gradient(180deg, color-mix(in oklch, var(--panel) 95%, transparent), color-mix(in oklch, var(--panel-strong) 66%, var(--panel)));
+  padding: clamp(1rem, 2.5vw, 1.5rem);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in oklch, var(--panel) 85%, transparent),
+    0 24px 60px color-mix(in oklch, var(--ink) 14%, transparent);
+}
+
+.manifest-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.port-seal {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  width: clamp(6rem, 14vw, 9rem);
+  justify-self: center;
+  border: 3px double color-mix(in oklch, var(--accent) 72%, var(--line));
+  border-radius: 999px;
+  background: color-mix(in oklch, var(--panel) 72%, transparent);
+  color: var(--accent-dark);
+  text-align: center;
+  line-height: 0.86;
+  box-shadow: inset 0 0 0 8px color-mix(in oklch, var(--accent) 8%, transparent);
+}
+
+.port-seal span {
+  font-family: var(--font-display), serif;
+  font-size: 2.25rem;
+  font-weight: 700;
+}
+
+.ship-card-image {
+  filter: sepia(0.18) contrast(1.05) saturate(0.82);
+  mix-blend-mode: multiply;
+}
+
+.category-mark {
+  display: grid;
+  width: 2.5rem;
+  height: 2.5rem;
+  place-items: center;
+  border-radius: var(--radius);
+}
+
+.category-mark-agent {
+  background: color-mix(in oklch, var(--sea) 16%, var(--panel));
+  color: var(--sea-dark);
+}
+
+.category-mark-api {
+  background: color-mix(in oklch, var(--accent) 14%, var(--panel));
+  color: var(--accent-dark);
+}
+
+.category-mark-workflow {
+  background: color-mix(in oklch, var(--signal) 12%, var(--panel));
+  color: color-mix(in oklch, var(--signal) 72%, var(--ink));
+}
+
+.chip {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: color-mix(in oklch, var(--panel-strong) 48%, transparent);
+  padding: 0.28rem 0.65rem;
+  color: var(--muted);
+}
+
+.manifest-list {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.empty-manifest {
+  border: 1px dashed color-mix(in oklch, var(--accent) 46%, var(--line));
+  border-radius: var(--radius);
+  background: color-mix(in oklch, var(--panel) 72%, transparent);
+  padding: 2rem;
+  text-align: center;
+}
+
+pre.card,
+.code-card {
+  background:
+    linear-gradient(180deg, color-mix(in oklch, var(--ink) 96%, var(--sea-dark)), color-mix(in oklch, var(--ink-strong) 96%, var(--sea-dark)));
+  color: color-mix(in oklch, var(--background) 91%, var(--accent));
+  border-color: color-mix(in oklch, var(--accent) 26%, var(--ink));
+}
+
+code {
+  font-variant-ligatures: none;
+}
+
+@media (hover: hover) {
+  .card:is(a, article):hover,
+  a.card:hover {
+    transform: translateY(-2px);
+    border-color: color-mix(in oklch, var(--accent) 46%, var(--line));
+  }
 }
 
 @media (max-width: 720px) {
   .container-shell {
     width: min(100vw - 24px, 1180px);
+  }
+
+  .port-hero::before {
+    font-size: 5.5rem;
+  }
+
+  .port-seal span {
+    font-size: 1.55rem;
+  }
+}
+
+@media (min-width: 721px) and (max-width: 1100px) {
+  .port-hero::before {
+    font-size: 9rem;
   }
 }

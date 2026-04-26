@@ -112,7 +112,7 @@ export function ListingComposer() {
     <section className="card grid gap-5 p-5">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <p className="label text-[var(--muted)]">Demo publisher</p>
+          <p className="label text-[var(--muted)]">Harbor publisher</p>
           <h2 className="text-2xl font-black">Sign and post a listing</h2>
         </div>
         <button className="button-ghost" type="button" onClick={() => setKeys(generateKeypair())}>

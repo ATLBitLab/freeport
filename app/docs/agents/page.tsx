@@ -4,9 +4,9 @@ export default function AgentDocsPage() {
   return (
     <main className="container-shell flex-1 py-10">
       <article className="grid max-w-4xl gap-8">
-        <header className="grid gap-3">
-          <p className="label text-[var(--muted)]">Agent guide</p>
-          <h1 className="text-4xl font-black md:text-5xl">Build against Freeport</h1>
+        <header className="page-header">
+          <p className="label page-kicker">Agent guide</p>
+          <h1 className="display-type text-4xl font-bold md:text-5xl">Build against Freeport</h1>
           <p className="text-lg leading-8 text-[var(--muted)]">
             Freeport v1 is discovery plus posting. Downstream service execution happens outside Freeport through the contact or invocation metadata in each listing.
           </p>

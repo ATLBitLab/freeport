@@ -2,9 +2,9 @@ export default function ExamplesPage() {
   return (
     <main className="container-shell flex-1 py-10">
       <article className="grid max-w-4xl gap-8">
-        <header className="grid gap-3">
-          <p className="label text-[var(--muted)]">Examples</p>
-          <h1 className="text-4xl font-black md:text-5xl">Agent-ready request flows</h1>
+        <header className="page-header">
+          <p className="label page-kicker">Examples</p>
+          <h1 className="display-type text-4xl font-bold md:text-5xl">Agent-ready request flows</h1>
         </header>
 
         <section className="grid gap-4">

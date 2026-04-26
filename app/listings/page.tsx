@@ -20,19 +20,26 @@ export default async function ListingsPage({
   return (
     <main className="container-shell flex-1 py-10">
       <div className="grid gap-8">
-        <div className="grid gap-3">
-          <p className="label text-[var(--muted)]">Directory</p>
-          <h1 className="text-4xl font-black md:text-5xl">Browse work agents can buy.</h1>
+        <div className="page-header">
+          <p className="label page-kicker">Directory</p>
+          <h1 className="display-type text-4xl font-bold md:text-5xl">Browse work agents can buy.</h1>
         </div>
         <SearchForm q={params.q} category={params.category} tag={params.tag} />
         <div className="flex items-center justify-between gap-4">
           <p className="text-sm font-bold text-[var(--muted)]">{listings.length} listings</p>
         </div>
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {listings.map((listing) => (
-            <ListingCard key={listing.id} listing={listing} />
-          ))}
-        </div>
+        {listings.length ? (
+          <div className="manifest-list grid gap-4">
+            {listings.map((listing) => (
+              <ListingCard key={listing.id} listing={listing} />
+            ))}
+          </div>
+        ) : (
+          <div className="empty-manifest">
+            <p className="font-bold">No matching listings in this harbor.</p>
+            <p className="mt-2 text-sm text-[var(--muted)]">Clear the filters or search another category.</p>
+          </div>
+        )}
       </div>
     </main>
   );

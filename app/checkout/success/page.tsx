@@ -9,8 +9,8 @@ export default function CheckoutSuccessPage() {
   return (
     <main className="container-shell grid flex-1 place-items-center py-16">
       <section className="card grid max-w-xl gap-4 p-8 text-center">
-        <p className="label text-[var(--muted)]">Checkout</p>
-        <h1 className="text-4xl font-black">
+        <p className="label page-kicker justify-self-center">Checkout</p>
+        <h1 className="display-type text-4xl font-bold">
           {isCheckoutPaidLoading || isCheckoutPaid === null
             ? "Verifying payment"
             : isCheckoutPaid

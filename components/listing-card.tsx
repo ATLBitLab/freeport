@@ -10,13 +10,19 @@ const icons = {
   l402_workflow: Workflow,
 };
 
+const iconTones = {
+  agent_service: "category-mark-agent",
+  l402_api: "category-mark-api",
+  l402_workflow: "category-mark-workflow",
+};
+
 export function ListingCard({ listing }: { listing: ListingWithSeller }) {
   const Icon = icons[listing.category];
 
   return (
     <article className="card flex h-full flex-col gap-5 p-5">
       <div className="flex items-start justify-between gap-4">
-        <div className="grid size-10 place-items-center rounded-[var(--radius)] bg-[color-mix(in_oklch,var(--accent)_14%,var(--panel))] text-[var(--accent-dark)]">
+        <div className={`category-mark ${iconTones[listing.category]}`}>
           <Icon size={20} aria-hidden />
         </div>
         <span className="label text-[var(--muted)]">{CATEGORY_LABELS[listing.category]}</span>
@@ -31,7 +37,7 @@ export function ListingCard({ listing }: { listing: ListingWithSeller }) {
         {listing.tags.slice(0, 4).map((tag) => (
           <span
             key={tag}
-            className="rounded-[var(--radius)] border border-[var(--line)] px-2.5 py-1 text-xs font-bold text-[var(--muted)]"
+            className="chip text-xs font-bold"
           >
             {tag}
           </span>

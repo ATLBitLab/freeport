@@ -16,9 +16,9 @@ export default function ApiDocsPage() {
   return (
     <main className="container-shell flex-1 py-10">
       <article className="grid gap-8">
-        <header className="grid max-w-4xl gap-3">
-          <p className="label text-[var(--muted)]">API reference</p>
-          <h1 className="text-4xl font-black md:text-5xl">HTTP-first marketplace API</h1>
+        <header className="page-header max-w-4xl">
+          <p className="label page-kicker">API reference</p>
+          <h1 className="display-type text-4xl font-bold md:text-5xl">HTTP-first marketplace API</h1>
           <p className="text-lg leading-8 text-[var(--muted)]">
             All endpoints return JSON. Errors use <code>{`{ "error": { "code", "message", "details" } }`}</code>.
           </p>

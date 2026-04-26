@@ -11,7 +11,7 @@ export function OnboardingPrompt() {
         </div>
         <CopyButton value={ONBOARDING_PROMPT} label="Copy prompt" />
       </div>
-      <pre className="card max-h-[420px] overflow-auto whitespace-pre-wrap p-5 font-mono text-sm leading-6 text-[var(--foreground)]">
+      <pre className="card max-h-[420px] overflow-auto whitespace-pre-wrap p-5 font-mono text-sm leading-6">
         {ONBOARDING_PROMPT}
       </pre>
     </section>
