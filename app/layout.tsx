@@ -3,6 +3,7 @@ import { Alegreya_SC, Azeret_Mono, Host_Grotesk } from "next/font/google";
 import "./globals.css";
 import "@moneydevkit/nextjs/mdk-styles.css";
 import { SiteNav } from "@/components/site-nav";
+import { WebMcpProvider } from "@/components/webmcp-provider";
 import { getSiteUrl } from "@/lib/env";
 
 const hostGrotesk = Host_Grotesk({
@@ -61,6 +62,7 @@ export default function RootLayout({
       className={`${hostGrotesk.variable} ${azeretMono.variable} ${alegreyaSc.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">
+        <WebMcpProvider />
         <SiteNav />
         {children}
       </body>
