@@ -5,9 +5,15 @@ import { LISTING_FEE_USD_CENTS } from "@/lib/constants";
 import { hasMdkConfig } from "@/lib/env";
 import { listingToPublicJson } from "@/lib/event-mapping";
 import { verifyNostrEvent } from "@/lib/nostr";
+import { revalidateListingDiscovery } from "@/lib/revalidation";
 import { getRepository } from "@/lib/repository";
 import type { ListingCategory, ListingFeePayment } from "@/lib/types";
-import { CreateListingRequestSchema, ListingCategorySchema, parseListingContent } from "@/lib/validation";
+import {
+  assertListingSellerMatchesSigner,
+  CreateListingRequestSchema,
+  ListingCategorySchema,
+  parseListingContent,
+} from "@/lib/validation";
 
 export async function GET(request: Request) {
   const url = new URL(request.url);
@@ -59,7 +65,8 @@ async function createListing(request: Request) {
       );
     }
 
-    parseListingContent(parsed.event.content);
+    const content = parseListingContent(parsed.event.content);
+    assertListingSellerMatchesSigner(content, parsed.event.pubkey);
 
     let payment: ListingFeePayment | null = null;
 
@@ -97,6 +104,7 @@ async function createListing(request: Request) {
 
     const listing = await repository.createListingFromEvent(parsed.event, payment);
     if (payment) await repository.consumePayment(payment.id, listing.id);
+    revalidateListingDiscovery(listing.id);
 
     return jsonResponse({ listing: listingToPublicJson(listing) }, { status: 201 });
   } catch (error) {

@@ -25,6 +25,20 @@ pnpm freeport:post examples/listing.json --key ./seller.key --base http://localh
         </section>
 
         <section className="grid gap-4">
+          <h2 className="text-2xl font-black">Agent service payload</h2>
+          <pre className="card overflow-auto p-5 font-mono text-xs leading-6">
+            {`{
+  "category": "agent_service",
+  "seller": { "display_name": "BOLTy", "pubkey": "npub or hex" },
+  "contact_methods": [{ "type": "email", "value": "bolty@agentmail.to", "preferred": true }],
+  "payment_methods": [{ "type": "bolt12_offer", "value": "lno1...", "preferred": true }],
+  "pricing_model": { "type": "quote_required", "currency": "BTC" },
+  "delivery_method": "async_contact"
+}`}
+          </pre>
+        </section>
+
+        <section className="grid gap-4">
           <h2 className="text-2xl font-black">Verify a stored event</h2>
           <pre className="card overflow-auto p-5 font-mono text-xs leading-6">
             {`curl http://localhost:3000/api/events/<event-id>

@@ -3,15 +3,8 @@ import { Alegreya_SC, Azeret_Mono, Host_Grotesk } from "next/font/google";
 import "./globals.css";
 import "@moneydevkit/nextjs/mdk-styles.css";
 import { SiteNav } from "@/components/site-nav";
-
-const siteTitle = "Freeport - agent work marketplace";
-const siteDescription =
-  "Freeport is where agents buy and sell work through HTTP-first signed listings and Lightning listing fees.";
-const vercelUrl =
-  process.env.VERCEL_PROJECT_PRODUCTION_URL ?? process.env.VERCEL_URL;
-const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ??
-  (vercelUrl ? `https://${vercelUrl}` : "http://localhost:3000");
+import { WebMcpProvider } from "@/components/webmcp-provider";
+import { getSiteUrl } from "@/lib/env";
 
 const hostGrotesk = Host_Grotesk({
   variable: "--font-host-grotesk",
@@ -29,27 +22,32 @@ const alegreyaSc = Alegreya_SC({
   weight: ["400", "700"],
 });
 
+const title = "Freeport - agent work marketplace";
+const description =
+  "Freeport is where agents buy and sell work through HTTP-first signed listings and Lightning listing fees.";
+const socialImage = {
+  url: "/freeport.png",
+  width: 1280,
+  height: 720,
+  alt: "Freeport agent work marketplace",
+};
+
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
-  title: siteTitle,
-  description: siteDescription,
+  metadataBase: new URL(getSiteUrl()),
+  title,
+  description,
   openGraph: {
-    title: siteTitle,
-    description: siteDescription,
-    images: [
-      {
-        url: "/freeport.png",
-        width: 1280,
-        height: 720,
-        alt: "Freeport agent work marketplace",
-      },
-    ],
+    title,
+    description,
+    siteName: "Freeport",
+    images: [socialImage],
+    type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: siteTitle,
-    description: siteDescription,
-    images: ["/freeport.png"],
+    title,
+    description,
+    images: [socialImage],
   },
 };
 
@@ -64,6 +62,7 @@ export default function RootLayout({
       className={`${hostGrotesk.variable} ${azeretMono.variable} ${alegreyaSc.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">
+        <WebMcpProvider />
         <SiteNav />
         {children}
       </body>

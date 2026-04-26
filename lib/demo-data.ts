@@ -2,6 +2,7 @@ import { EVENT_KINDS } from "@/lib/constants";
 import { listingFromEvent } from "@/lib/event-mapping";
 import { privateKeyToPubkey, signEvent } from "@/lib/nostr";
 import type { ListingContent, ListingWithSeller, NostrEvent, Seller } from "@/lib/types";
+import { pricingModelType } from "@/lib/validation";
 
 const keys = [
   "0000000000000000000000000000000000000000000000000000000000000001",
@@ -34,18 +35,35 @@ function content(input: ListingContent): string {
   return JSON.stringify(input);
 }
 
-function buildEvent(privateKey: string, pubkey: string, createdAt: number, payload: ListingContent) {
+function buildEvent(
+  privateKey: string,
+  pubkey: string,
+  createdAt: number,
+  sellerName: string,
+  payload: ListingContent,
+) {
+  const eventPayload: ListingContent =
+    payload.category === "agent_service"
+      ? {
+          ...payload,
+          seller: {
+            display_name: sellerName,
+            pubkey,
+          },
+        }
+      : payload;
+
   return signEvent(
     {
       pubkey,
       created_at: createdAt,
       kind: EVENT_KINDS.listing,
       tags: [
-        ["category", payload.category],
-        ...payload.tags.map((tag) => ["t", tag]),
-        ["pricing", payload.pricing_model],
+        ["category", eventPayload.category],
+        ...eventPayload.tags.map((tag) => ["t", tag]),
+        ["pricing", pricingModelType(eventPayload.pricing_model)],
       ],
-      content: content(payload),
+      content: content(eventPayload),
     },
     privateKey,
   );
@@ -63,7 +81,34 @@ const listings: Array<{ privateKey: string; sellerName: string; createdAt: numbe
       description:
         "Send a GitHub pull request URL and this agent returns a concise map of blocking comments, likely fixes, and risk areas. It is tuned for maintainers who need to hand a messy review back to an implementation agent.",
       tags: ["github", "reviews", "code"],
-      pricing_model: "quote_required",
+      contact_methods: [
+        {
+          type: "email",
+          value: "review-cartographer@example.com",
+          label: "Primary contact",
+          preferred: true,
+        },
+      ],
+      payment_methods: [
+        {
+          type: "bolt12_offer",
+          value: "lno1reviewcartographerdemo",
+          label: "Primary payment offer",
+          preferred: true,
+        },
+      ],
+      pricing_model: {
+        type: "quote_required",
+        currency: "USD",
+        notes: "Send the PR URL and review scope for a quote. Typical reviews start around $2.",
+      },
+      delivery_method: "async_contact",
+      turnaround: { typical: "under 3 minutes for typical PRs", rush_available: false },
+      service_area: { mode: "remote", languages: ["en"] },
+      capabilities: ["PR review synthesis", "blocking comment extraction", "risk summarization"],
+      requirements: ["Provide a GitHub pull request URL", "Confirm the repository is readable"],
+      availability: { status: "open" },
+      metadata: { version: "v1" },
       pricing_details: { starts_at_usd: 2, turnaround: "under 3 minutes for typical PRs" },
       invocation_method: "https",
       invocation_url: "https://example.com/agents/review-cartographer",
@@ -84,7 +129,35 @@ const listings: Array<{ privateKey: string; sellerName: string; createdAt: numbe
       description:
         "Upload a CSV export and receive normalized merchant names, categories, and explanation fields. The agent is optimized for small Bitcoin orgs and operators who need repeatable monthly close prep.",
       tags: ["bookkeeping", "csv", "finance"],
-      pricing_model: "fixed_usd",
+      contact_methods: [
+        {
+          type: "email",
+          value: "ledger-lens@example.com",
+          label: "Primary contact",
+          preferred: true,
+        },
+      ],
+      payment_methods: [
+        {
+          type: "bolt12_offer",
+          value: "lno1ledgerlensdemo",
+          label: "Primary payment offer",
+          preferred: true,
+        },
+      ],
+      pricing_model: {
+        type: "fixed",
+        currency: "USD",
+        amount: 5,
+        notes: "Fixed price per CSV file after scope confirmation.",
+      },
+      delivery_method: "async_contact",
+      turnaround: { typical: "same day", rush_available: true },
+      service_area: { mode: "remote", languages: ["en"] },
+      capabilities: ["transaction categorization", "merchant normalization", "monthly close prep"],
+      requirements: ["Provide a CSV export", "Confirm expected output categories"],
+      availability: { status: "limited" },
+      metadata: { version: "v1" },
       pricing_details: { amount_usd: 5, unit: "per file" },
       invocation_method: "webhook",
       invocation_url: "https://example.com/workflows/ledger-lens",
@@ -105,7 +178,34 @@ const listings: Array<{ privateKey: string; sellerName: string; createdAt: numbe
       description:
         "Provide OpenAPI fragments, README notes, or route handler files. The service returns stable endpoint docs, error tables, and compact examples suitable for llms.txt routing.",
       tags: ["docs", "api", "llms"],
-      pricing_model: "quote_required",
+      contact_methods: [
+        {
+          type: "email",
+          value: "doc-dock@example.com",
+          label: "Primary contact",
+          preferred: true,
+        },
+      ],
+      payment_methods: [
+        {
+          type: "lightning_address",
+          value: "doc-dock@example.com",
+          label: "Lightning address",
+          preferred: true,
+        },
+      ],
+      pricing_model: {
+        type: "quote_required",
+        currency: "BTC",
+        notes: "Send endpoint count and source material for a quote.",
+      },
+      delivery_method: "email",
+      turnaround: { typical: "1-2 days", rush_available: false },
+      service_area: { mode: "remote", languages: ["en"] },
+      capabilities: ["API docs", "error tables", "agent-readable examples"],
+      requirements: ["Provide OpenAPI fragments, route files, or README notes"],
+      availability: { status: "open" },
+      metadata: { version: "v1" },
       pricing_details: { quote_basis: "endpoint count" },
       invocation_method: "email",
       contact_info: { email: "doc-dock@example.com" },
@@ -229,7 +329,7 @@ export function buildDemoData() {
   listings.forEach((entry, index) => {
     const pubkey = privateKeyToPubkey(entry.privateKey);
     const builtSeller = seller(pubkey, index + 1, entry.sellerName);
-    const eventWithPubkey = buildEvent(entry.privateKey, pubkey, entry.createdAt, entry.payload);
+    const eventWithPubkey = buildEvent(entry.privateKey, pubkey, entry.createdAt, entry.sellerName, entry.payload);
     sellers.push(builtSeller);
     events.push(eventWithPubkey);
     publicListings.push(listingFromEvent(eventWithPubkey, builtSeller));
