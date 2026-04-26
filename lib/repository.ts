@@ -14,6 +14,7 @@ import {
 } from "@/lib/db-mappers";
 import { eventRecordFromEvent, listingFromEvent } from "@/lib/event-mapping";
 import { hasSupabaseConfig } from "@/lib/env";
+import type { SellerProfileData } from "@/lib/seller-profile";
 import { createServiceClient } from "@/lib/supabase";
 import type {
   JsonObject,
@@ -59,6 +60,9 @@ function matchesListing(listing: ListingWithSeller, filters: ListingFilters) {
       listing.description,
       listing.category,
       ...listing.tags,
+      listing.seller?.profileDisplayName ?? "",
+      listing.seller?.profileName ?? "",
+      listing.seller?.profileAbout ?? "",
       listing.seller?.displayName ?? "",
       listing.seller?.pubkey ?? "",
     ]
@@ -115,12 +119,52 @@ class MemoryRepository {
       contactMethodValue: input.contactMethodValue ?? null,
       walletType: input.walletType ?? "moneydevkit_agent_wallet",
       walletMetadata: (input.walletMetadata as JsonObject | undefined) ?? {},
+      profileName: null,
+      profileDisplayName: null,
+      profileAbout: null,
+      profilePictureUrl: null,
+      profileWebsite: null,
+      profileNip05: null,
+      profileLud16: null,
+      profileBot: null,
+      profileMetadata: {},
+      profileEventId: null,
+      profileEventCreatedAt: null,
       createdAt: now,
       updatedAt: now,
       status: "active",
     };
     this.store.sellers.push(seller);
     return seller;
+  }
+
+  async upsertSellerProfileFromEvent(event: NostrEvent, profile: SellerProfileData) {
+    const seller = await this.upsertSeller({ pubkey: event.pubkey });
+    const profileUpdated = shouldReplaceSellerProfile(seller, event);
+    const eventRecord = eventRecordFromEvent(event, null);
+    if (!profileUpdated) eventRecord.supersededByEventId = seller.profileEventId;
+
+    if (!this.store.events.some((record) => record.eventId === event.id)) {
+      this.store.events.push(eventRecord);
+    }
+
+    if (!profileUpdated) {
+      return { seller, profileUpdated };
+    }
+
+    seller.profileName = profile.profileName;
+    seller.profileDisplayName = profile.profileDisplayName;
+    seller.profileAbout = profile.profileAbout;
+    seller.profilePictureUrl = profile.profilePictureUrl;
+    seller.profileWebsite = profile.profileWebsite;
+    seller.profileNip05 = profile.profileNip05;
+    seller.profileLud16 = profile.profileLud16;
+    seller.profileBot = profile.profileBot;
+    seller.profileMetadata = profile.profileMetadata;
+    seller.profileEventId = event.id;
+    seller.profileEventCreatedAt = event.created_at;
+    seller.updatedAt = new Date().toISOString();
+    return { seller, profileUpdated };
   }
 
   async createListingFromEvent(event: NostrEvent, payment?: ListingFeePayment | null) {
@@ -272,9 +316,31 @@ class SupabaseRepository {
     walletMetadata?: Record<string, unknown>;
   }) {
     const client = this.requireClient();
+    const existing = await this.getSellerByPubkey(input.pubkey);
+
+    if (existing) {
+      const patch: Record<string, unknown> = {};
+      if (input.displayName !== undefined) patch.display_name = input.displayName;
+      if (input.contactMethodType !== undefined) patch.contact_method_type = input.contactMethodType;
+      if (input.contactMethodValue !== undefined) patch.contact_method_value = input.contactMethodValue;
+      if (input.walletType !== undefined) patch.wallet_type = input.walletType;
+      if (input.walletMetadata !== undefined) patch.wallet_metadata = input.walletMetadata;
+
+      if (!Object.keys(patch).length) return existing;
+
+      const { data, error } = await client
+        .from("sellers")
+        .update(patch)
+        .eq("pubkey", input.pubkey)
+        .select("*")
+        .single();
+      if (error) throw error;
+      return sellerFromRow(data);
+    }
+
     const { data, error } = await client
       .from("sellers")
-      .upsert(
+      .insert(
         sellerToRow({
           pubkey: input.pubkey,
           displayName: input.displayName,
@@ -283,12 +349,60 @@ class SupabaseRepository {
           walletType: input.walletType,
           walletMetadata: input.walletMetadata as JsonObject | undefined,
         }),
-        { onConflict: "pubkey" },
       )
       .select("*")
       .single();
     if (error) throw error;
     return sellerFromRow(data);
+  }
+
+  async upsertSellerProfileFromEvent(event: NostrEvent, profile: SellerProfileData) {
+    const client = this.requireClient();
+    const seller = await this.upsertSeller({ pubkey: event.pubkey });
+    const profileUpdated = shouldReplaceSellerProfile(seller, event);
+    const eventRecord = eventRecordFromEvent(event, null);
+    if (!profileUpdated) eventRecord.supersededByEventId = seller.profileEventId;
+
+    const { error: eventError } = await client
+      .from("listing_events")
+      .upsert(eventRecordToRow(eventRecord), {
+        onConflict: "event_id",
+        ignoreDuplicates: true,
+      });
+    if (eventError) throw eventError;
+
+    if (!profileUpdated) {
+      return { seller, profileUpdated };
+    }
+
+    const { data, error } = await client
+      .from("sellers")
+      .update({
+        profile_name: profile.profileName,
+        profile_display_name: profile.profileDisplayName,
+        profile_about: profile.profileAbout,
+        profile_picture_url: profile.profilePictureUrl,
+        profile_website: profile.profileWebsite,
+        profile_nip05: profile.profileNip05,
+        profile_lud16: profile.profileLud16,
+        profile_bot: profile.profileBot,
+        profile_metadata: profile.profileMetadata,
+        profile_event_id: event.id,
+        profile_event_created_at: event.created_at,
+      })
+      .eq("id", seller.id)
+      .select("*")
+      .single();
+    if (error) throw error;
+
+    if (seller.profileEventId) {
+      await client
+        .from("listing_events")
+        .update({ superseded_by_event_id: event.id })
+        .eq("event_id", seller.profileEventId);
+    }
+
+    return { seller: sellerFromRow(data), profileUpdated };
   }
 
   async createListingFromEvent(event: NostrEvent, payment?: ListingFeePayment | null) {
@@ -433,6 +547,13 @@ class SupabaseRepository {
     if (error) throw error;
     return data ? paymentFromRow(data) : null;
   }
+}
+
+function shouldReplaceSellerProfile(seller: Seller, event: NostrEvent) {
+  if (!seller.profileEventId || seller.profileEventCreatedAt === null) return true;
+  if (event.created_at > seller.profileEventCreatedAt) return true;
+  if (event.created_at < seller.profileEventCreatedAt) return false;
+  return event.id < seller.profileEventId;
 }
 
 export function getRepository() {

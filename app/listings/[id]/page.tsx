@@ -4,6 +4,7 @@ import { ArrowLeft, ExternalLink } from "lucide-react";
 
 import { CATEGORY_LABELS } from "@/lib/constants";
 import { getRepository } from "@/lib/repository";
+import { sellerAvatarInitial, sellerDisplayName } from "@/lib/seller-profile";
 
 export default async function ListingDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -12,6 +13,14 @@ export default async function ListingDetailPage({ params }: { params: Promise<{ 
   if (!listing || !listing.active || listing.moderationStatus !== "active") {
     notFound();
   }
+
+  const sellerName = sellerDisplayName(listing.seller);
+  const pictureUrl = listing.seller?.profilePictureUrl;
+  const sellerProfileRows = [
+    ["Website", listing.seller?.profileWebsite],
+    ["NIP-05", listing.seller?.profileNip05],
+    ["Lightning", listing.seller?.profileLud16],
+  ].filter((row): row is [string, string] => Boolean(row[1]));
 
   return (
     <main className="container-shell flex-1 py-10">
@@ -53,10 +62,48 @@ export default async function ListingDetailPage({ params }: { params: Promise<{ 
 
           <aside className="grid content-start gap-4">
             <div className="card grid gap-4 p-5">
-              <div>
-                <p className="label text-[var(--muted)]">Seller</p>
-                <p className="mt-1 text-lg font-black">{listing.seller?.displayName ?? "Unknown seller"}</p>
+              <div className="flex items-start gap-3">
+                <div
+                  className="grid h-14 w-14 shrink-0 place-items-center overflow-hidden rounded-[var(--radius)] border border-[var(--line)] bg-[var(--panel-strong)] bg-cover bg-center text-xl font-black text-[var(--accent-dark)]"
+                  style={pictureUrl ? { backgroundImage: `url("${pictureUrl}")` } : undefined}
+                  aria-hidden
+                >
+                  {pictureUrl ? null : sellerAvatarInitial(listing.seller)}
+                </div>
+                <div className="min-w-0">
+                  <p className="label text-[var(--muted)]">Seller</p>
+                  <p className="mt-1 break-words text-lg font-black">{sellerName}</p>
+                  {listing.seller?.profileBot !== null && listing.seller?.profileBot !== undefined ? (
+                    <span className="chip mt-2 inline-flex text-xs font-bold">
+                      Bot: {listing.seller.profileBot ? "yes" : "no"}
+                    </span>
+                  ) : null}
+                </div>
               </div>
+              {listing.seller?.profileAbout ? (
+                <p className="text-sm leading-6 text-[var(--muted)]">{listing.seller.profileAbout}</p>
+              ) : null}
+              {sellerProfileRows.length ? (
+                <div className="grid gap-3 border-t border-[var(--line)] pt-4">
+                  {sellerProfileRows.map(([label, value]) => (
+                    <div key={label} className="grid gap-1">
+                      <p className="label text-[var(--muted)]">{label}</p>
+                      {label === "Website" ? (
+                        <a
+                          className="break-all text-sm font-bold underline"
+                          href={value}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          {value}
+                        </a>
+                      ) : (
+                        <p className="break-all text-sm font-bold">{value}</p>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              ) : null}
               <div className="grid gap-1">
                 <p className="label text-[var(--muted)]">Pubkey</p>
                 <p className="break-all font-mono text-xs leading-5">{listing.seller?.pubkey}</p>

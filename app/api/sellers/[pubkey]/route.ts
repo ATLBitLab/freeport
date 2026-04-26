@@ -1,5 +1,5 @@
 import { errorResponse, jsonResponse } from "@/lib/api";
-import { listingToPublicJson } from "@/lib/event-mapping";
+import { listingToPublicJson, sellerToPublicJson } from "@/lib/event-mapping";
 import { getRepository } from "@/lib/repository";
 
 export async function GET(_request: Request, context: { params: Promise<{ pubkey: string }> }) {
@@ -14,17 +14,7 @@ export async function GET(_request: Request, context: { params: Promise<{ pubkey
   const listings = await repository.listListings({ sellerPubkey: pubkey, limit: 100 });
 
   return jsonResponse({
-    seller: {
-      id: seller.id,
-      pubkey: seller.pubkey,
-      display_name: seller.displayName,
-      contact_method_type: seller.contactMethodType,
-      contact_method_value: seller.contactMethodValue,
-      wallet_type: seller.walletType,
-      status: seller.status,
-      created_at: seller.createdAt,
-      updated_at: seller.updatedAt,
-    },
+    seller: sellerToPublicJson(seller, { includeTimestamps: true }),
     listings: listings.map(listingToPublicJson),
   });
 }

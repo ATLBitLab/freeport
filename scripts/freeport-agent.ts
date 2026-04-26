@@ -3,7 +3,7 @@ import { basename } from "node:path";
 
 import { EVENT_KINDS } from "../lib/constants";
 import { generateKeypair, privateKeyToPubkey, signEvent } from "../lib/nostr";
-import type { ListingContent, NostrEvent } from "../lib/types";
+import type { JsonObject, ListingContent, NostrEvent } from "../lib/types";
 
 type Args = Record<string, string | boolean>;
 
@@ -35,6 +35,8 @@ function usage() {
 
 Commands:
   keygen --out ./seller.key
+  profile-sign profile.json --key ./seller.key --out signed-profile.json
+  profile-post profile.json --key ./seller.key --base http://localhost:3000
   sign examples/listing.json --key ./seller.key --out signed-event.json
   post examples/listing.json --key ./seller.key --base http://localhost:3000
 
@@ -50,6 +52,15 @@ function readKey(path?: string) {
 function readListing(path?: string) {
   if (!path) throw new Error("A listing JSON file path is required.");
   return JSON.parse(readFileSync(path, "utf8")) as ListingContent;
+}
+
+function readJsonObject(path?: string, label = "JSON") {
+  if (!path) throw new Error(`${label} file path is required.`);
+  const parsed = JSON.parse(readFileSync(path, "utf8")) as unknown;
+  if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
+    throw new Error(`${label} must be a JSON object.`);
+  }
+  return parsed as JsonObject;
 }
 
 function signListing(content: ListingContent, privateKey: string): NostrEvent {
@@ -68,6 +79,36 @@ function signListing(content: ListingContent, privateKey: string): NostrEvent {
     },
     privateKey,
   );
+}
+
+function signProfile(metadata: JsonObject, privateKey: string): NostrEvent {
+  const pubkey = privateKeyToPubkey(privateKey);
+  return signEvent(
+    {
+      pubkey,
+      created_at: Math.floor(Date.now() / 1000),
+      kind: EVENT_KINDS.sellerProfile,
+      tags: [],
+      content: JSON.stringify(metadata),
+    },
+    privateKey,
+  );
+}
+
+async function postProfile(base: string, event: NostrEvent) {
+  const response = await fetch(`${base}/api/sellers/profile`, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ event }),
+  });
+  const body = await response.json();
+
+  if (!response.ok) {
+    console.log(JSON.stringify(body, null, 2));
+    process.exit(1);
+  }
+
+  console.log(JSON.stringify(body, null, 2));
 }
 
 async function postListing(base: string, event: NostrEvent, authorization?: string) {
@@ -134,6 +175,25 @@ async function main() {
     const out = typeof args.out === "string" ? args.out : `${basename(positional[0] ?? "listing.json")}.signed.json`;
     writeFileSync(out, `${JSON.stringify({ event }, null, 2)}\n`);
     console.log(JSON.stringify({ event_id: event.id, pubkey: event.pubkey, out }, null, 2));
+    return;
+  }
+
+  if (command === "profile-sign") {
+    const profile = readJsonObject(positional[0], "Profile");
+    const event = signProfile(profile, readKey(typeof args.key === "string" ? args.key : undefined));
+    const out = typeof args.out === "string" ? args.out : `${basename(positional[0] ?? "profile.json")}.signed.json`;
+    writeFileSync(out, `${JSON.stringify({ event }, null, 2)}\n`);
+    console.log(JSON.stringify({ event_id: event.id, pubkey: event.pubkey, out }, null, 2));
+    return;
+  }
+
+  if (command === "profile-post") {
+    const profile = readJsonObject(positional[0], "Profile");
+    const event = signProfile(profile, readKey(typeof args.key === "string" ? args.key : undefined));
+    await postProfile(
+      typeof args.base === "string" ? args.base.replace(/\/$/, "") : "http://localhost:3000",
+      event,
+    );
     return;
   }
 

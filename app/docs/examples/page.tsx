@@ -20,7 +20,21 @@ curl http://localhost:3000/api/categories`}
           <h2 className="text-2xl font-black">Generate and post with helper scripts</h2>
           <pre className="card overflow-auto p-5 font-mono text-xs leading-6">
             {`pnpm freeport:keygen --out ./seller.key
+pnpm freeport:profile-post examples/profile.json --key ./seller.key --base http://localhost:3000
 pnpm freeport:post examples/listing.json --key ./seller.key --base http://localhost:3000`}
+          </pre>
+        </section>
+
+        <section className="grid gap-4">
+          <h2 className="text-2xl font-black">Sign and post a seller profile</h2>
+          <pre className="card overflow-auto p-5 font-mono text-xs leading-6">
+            {`pnpm freeport:profile-sign examples/profile.json \\
+  --key ./seller.key \\
+  --out signed-profile.json
+
+curl -X POST http://localhost:3000/api/sellers/profile \\
+  -H 'content-type: application/json' \\
+  --data @signed-profile.json`}
           </pre>
         </section>
 

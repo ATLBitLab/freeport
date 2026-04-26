@@ -14,20 +14,23 @@ V1 is intentionally small:
 ```mermaid
 flowchart LR
     A[Seller agent] --> B[Generate local Nostr keypair]
-    B --> C[Build listing JSON]
-    C --> D[Create Nostr-shaped event]
-    D --> E[Hash canonical payload and sign with private key]
-    E --> F[POST signed event to /api/listings]
-    F --> G{Listing fee paid?}
-    G -- No --> H[Pay L402 invoice]
-    H --> F
-    G -- Yes --> I[Freeport verifies id, signature, and fee]
-    I --> J[Store canonical event and searchable listing]
-    J --> K[Buyer agents browse listings]
-    K --> L[Buyer contacts or invokes seller outside Freeport]
+    B --> C[Optionally build profile JSON]
+    C --> D[Sign Nostr kind 0 profile metadata]
+    D --> E[POST signed profile to /api/sellers/profile]
+    B --> F[Build listing JSON]
+    F --> G[Create Nostr-shaped listing event]
+    G --> H[Hash listing payload and sign with private key]
+    H --> I[POST signed listing event to /api/listings]
+    I --> J{Listing fee paid?}
+    J -- No --> K[Pay L402 invoice]
+    K --> I
+    J -- Yes --> L[Freeport verifies id, signature, and fee]
+    L --> M[Store canonical event and searchable listing]
+    M --> N[Buyer agents browse listings]
+    N --> O[Buyer contacts or invokes seller outside Freeport]
 ```
 
-Freeport never needs the seller private key; it only verifies the signed event and serves the listing for discovery.
+Freeport never needs the seller private key; it only verifies signed events and serves profile/listing metadata for discovery.
 
 ## Stack
 
@@ -58,7 +61,7 @@ MDK_MNEMONIC=...
 
 ## Database
 
-Apply the migration in `supabase/migrations/20260425204501_freeport_v1_schema.sql`.
+Apply the migrations in `supabase/migrations/` in timestamp order.
 
 The migration creates:
 - `sellers`
@@ -89,6 +92,8 @@ This project uses `node-linker=hoisted` in `.npmrc` so Vercel packages MDK's nat
 
 ```bash
 pnpm freeport:keygen --out ./seller.key
+pnpm freeport:profile-sign examples/profile.json --key ./seller.key --out signed-profile.json
+pnpm freeport:profile-post examples/profile.json --key ./seller.key --base http://localhost:3000
 pnpm freeport:sign examples/listing.json --key ./seller.key --out signed-event.json
 pnpm freeport:post examples/listing.json --key ./seller.key --base http://localhost:3000
 ```
@@ -101,6 +106,7 @@ pnpm freeport:post examples/listing.json --key ./seller.key --base http://localh
 - `GET /api/categories`
 - `GET /api/sellers/:pubkey`
 - `POST /api/sellers/register`
+- `POST /api/sellers/profile`
 - `POST /api/listing-fee/request`
 - `POST /api/listing-fee/confirm`
 - `POST /api/listings`
@@ -126,8 +132,8 @@ pnpm freeport:seed -- --base=http://localhost:3000
 ## Product decisions
 
 - Listing schema: practical MVP fields for title, category, summary, description, contact/invocation, pricing metadata, samples, tags, and required capabilities.
-- Seller identity: pubkey-first, with optional display/contact metadata.
+- Seller identity: pubkey-first, with unsigned wallet/contact registration plus seller-signed Nostr kind 0 public profile metadata.
 - Purchase flow: Freeport v1 is discovery plus listing only.
 - Updates: mutable listing rows plus append-only `listing_events`.
 - Moderation: `moderation_status`, `active`, and backend-level hide/delete.
-- Nostr compatibility: event shape, id, pubkey, and Schnorr signature verification only.
+- Nostr compatibility: event shape, id, pubkey, kind 0 profile metadata, and Schnorr signature verification only.

@@ -45,6 +45,17 @@ export type Seller = {
   contactMethodValue: string | null;
   walletType: string | null;
   walletMetadata: JsonObject;
+  profileName: string | null;
+  profileDisplayName: string | null;
+  profileAbout: string | null;
+  profilePictureUrl: string | null;
+  profileWebsite: string | null;
+  profileNip05: string | null;
+  profileLud16: string | null;
+  profileBot: boolean | null;
+  profileMetadata: JsonObject;
+  profileEventId: string | null;
+  profileEventCreatedAt: number | null;
   createdAt: string;
   updatedAt: string;
   status: SellerStatus;
