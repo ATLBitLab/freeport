@@ -2,7 +2,7 @@ import { randomUUID } from "node:crypto";
 
 import { EVENT_KINDS } from "@/lib/constants";
 import { canonicalEventJson } from "@/lib/nostr";
-import { parseListingContent } from "@/lib/validation";
+import { parseListingContent, pricingModelType } from "@/lib/validation";
 import type {
   ContactMethod,
   DeliveryMethod,
@@ -15,7 +15,35 @@ import type {
   NostrEvent,
   Seller,
 } from "@/lib/types";
-import { pricingModelType } from "@/lib/validation";
+
+export function sellerToPublicJson(seller: Seller, options: { includeTimestamps?: boolean } = {}) {
+  return {
+    id: seller.id,
+    pubkey: seller.pubkey,
+    display_name: seller.displayName,
+    contact_method_type: seller.contactMethodType,
+    contact_method_value: seller.contactMethodValue,
+    wallet_type: seller.walletType,
+    status: seller.status,
+    profile_name: seller.profileName,
+    profile_display_name: seller.profileDisplayName,
+    profile_about: seller.profileAbout,
+    profile_picture_url: seller.profilePictureUrl,
+    profile_website: seller.profileWebsite,
+    profile_nip05: seller.profileNip05,
+    profile_lud16: seller.profileLud16,
+    profile_bot: seller.profileBot,
+    profile_metadata: seller.profileMetadata,
+    profile_event_id: seller.profileEventId,
+    profile_event_created_at: seller.profileEventCreatedAt,
+    ...(options.includeTimestamps
+      ? {
+          created_at: seller.createdAt,
+          updated_at: seller.updatedAt,
+        }
+      : {}),
+  };
+}
 
 export function uuidFromEventId(eventId: string) {
   const hex = eventId.padEnd(32, "0").slice(0, 32).split("");
@@ -161,17 +189,7 @@ export function listingToPublicJson(listing: ListingWithSeller) {
   return {
     id: listing.id,
     seller_id: listing.sellerId,
-    seller: listing.seller
-      ? {
-          id: listing.seller.id,
-          pubkey: listing.seller.pubkey,
-          display_name: listing.seller.displayName,
-          contact_method_type: listing.seller.contactMethodType,
-          contact_method_value: listing.seller.contactMethodValue,
-          wallet_type: listing.seller.walletType,
-          status: listing.seller.status,
-        }
-      : null,
+    seller: listing.seller ? sellerToPublicJson(listing.seller) : null,
     event_id: listing.eventId,
     kind: listing.kind,
     category: listing.category,

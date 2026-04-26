@@ -1,4 +1,5 @@
 import { jsonResponse, readJson, validationErrorResponse } from "@/lib/api";
+import { sellerToPublicJson } from "@/lib/event-mapping";
 import { getRepository } from "@/lib/repository";
 import { SellerRegisterSchema } from "@/lib/validation";
 
@@ -15,15 +16,7 @@ export async function POST(request: Request) {
     });
     return jsonResponse(
       {
-        seller: {
-          id: seller.id,
-          pubkey: seller.pubkey,
-          display_name: seller.displayName,
-          contact_method_type: seller.contactMethodType,
-          contact_method_value: seller.contactMethodValue,
-          wallet_type: seller.walletType,
-          status: seller.status,
-        },
+        seller: sellerToPublicJson(seller),
       },
       { status: 201 },
     );

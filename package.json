@@ -8,8 +8,11 @@
     "start": "next start",
     "lint": "eslint",
     "freeport:keygen": "tsx scripts/freeport-agent.ts keygen",
+    "freeport:profile-sign": "tsx scripts/freeport-agent.ts profile-sign",
+    "freeport:profile-post": "tsx scripts/freeport-agent.ts profile-post",
     "freeport:sign": "tsx scripts/freeport-agent.ts sign",
     "freeport:post": "tsx scripts/freeport-agent.ts post",
+    "freeport:profile-check": "tsx scripts/check-profile-flow.tsx",
     "freeport:seed": "tsx scripts/seed-demo.ts"
   },
   "dependencies": {

@@ -192,7 +192,7 @@ export const NostrEventSchema = z.object({
   id: hex64,
   pubkey: hex64,
   created_at: z.number().int().positive(),
-  kind: z.number().int().positive(),
+  kind: z.number().int().nonnegative(),
   tags: z.array(z.array(z.string())),
   content: z.string().min(2).max(20000),
   sig: hex128,
@@ -214,6 +214,18 @@ export const CreateListingRequestSchema = z.object({
   listing_fee_payment_id: z.string().uuid().optional(),
 });
 
+export const SellerProfileEventSchema = NostrEventSchema.refine(
+  (event) => event.kind === EVENT_KINDS.sellerProfile,
+  {
+    message: "Seller profile event kind must be 0.",
+    path: ["kind"],
+  },
+);
+
+export const SellerProfileRequestSchema = z.object({
+  event: SellerProfileEventSchema,
+});
+
 export const SellerRegisterSchema = z.object({
   pubkey: hex64,
   display_name: z.string().trim().min(2).max(80).optional(),
@@ -225,7 +237,7 @@ export const SellerRegisterSchema = z.object({
 
 export const SigningTemplateRequestSchema = z.object({
   pubkey: hex64,
-  kind: z.number().int().positive().default(EVENT_KINDS.listing),
+  kind: z.number().int().nonnegative().default(EVENT_KINDS.listing),
   content: ListingContentSchema,
   tags: z.array(z.array(z.string())).optional(),
 });

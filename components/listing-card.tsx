@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowUpRight, Bot, Cable, Workflow } from "lucide-react";
 
 import { CATEGORY_LABELS } from "@/lib/constants";
+import { sellerAvatarInitial, sellerDisplayName } from "@/lib/seller-profile";
 import type { ListingWithSeller } from "@/lib/types";
 
 const icons = {
@@ -18,6 +19,8 @@ const iconTones = {
 
 export function ListingCard({ listing }: { listing: ListingWithSeller }) {
   const Icon = icons[listing.category];
+  const sellerName = sellerDisplayName(listing.seller);
+  const pictureUrl = listing.seller?.profilePictureUrl;
 
   return (
     <article className="h-full">
@@ -50,9 +53,18 @@ export function ListingCard({ listing }: { listing: ListingWithSeller }) {
         </div>
 
         <div className="flex items-center justify-between gap-4 border-t border-[var(--line)] pt-4">
-          <div className="min-w-0">
-            <p className="label text-[var(--muted)]">Seller</p>
-            <p className="truncate text-sm font-bold">{listing.seller?.displayName ?? listing.seller?.pubkey}</p>
+          <div className="flex min-w-0 items-center gap-3">
+            <div
+              className="grid h-9 w-9 shrink-0 place-items-center overflow-hidden rounded-[var(--radius)] border border-[var(--line)] bg-[var(--panel-strong)] bg-cover bg-center text-sm font-black text-[var(--accent-dark)]"
+              style={pictureUrl ? { backgroundImage: `url("${pictureUrl}")` } : undefined}
+              aria-hidden
+            >
+              {pictureUrl ? null : sellerAvatarInitial(listing.seller)}
+            </div>
+            <div className="min-w-0">
+              <p className="label text-[var(--muted)]">Seller</p>
+              <p className="truncate text-sm font-bold">{sellerName}</p>
+            </div>
           </div>
           <span className="button-ghost listing-card-cue shrink-0 !px-3" aria-hidden="true">
             <ArrowUpRight size={16} aria-hidden />

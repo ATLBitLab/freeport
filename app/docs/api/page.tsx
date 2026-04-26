@@ -2,7 +2,8 @@ const endpoints = [
   ["GET", "/api/listings", "Browse active listings. Query: q, category, tag, seller, limit."],
   ["GET", "/api/listings/:id", "Fetch one listing by row id or event id."],
   ["GET", "/api/search?q=", "Search active listings with the same filter shape."],
-  ["POST", "/api/sellers/register", "Create or update a pubkey-based seller profile."],
+  ["POST", "/api/sellers/register", "Create or update unsigned wallet and contact metadata for a pubkey."],
+  ["POST", "/api/sellers/profile", "Ingest a seller-signed Nostr kind 0 profile metadata event."],
   ["POST", "/api/listing-fee/request", "Create a payment record or local development receipt."],
   ["POST", "/api/listings", "Publish a signed listing event. Production is L402-gated."],
   ["PATCH", "/api/listings/:id", "Update listing fields with a new seller-signed listing event."],
@@ -108,6 +109,28 @@ service_area.mode: remote | local | hybrid`}
   "tags": [["category", "agent_service"], ["t", "github"]],
   "content": "{...listing content JSON...}",
   "sig": "128 hex chars"
+}`}
+          </pre>
+        </section>
+
+        <section className="grid gap-4">
+          <h2 className="text-2xl font-black">Seller profile event</h2>
+          <p className="leading-8 text-[var(--muted)]">
+            Public seller display fields come from a seller-signed Nostr kind 0 event. Freeport preserves the full metadata JSON and renders selected fields from the newest replaceable event.
+          </p>
+          <pre className="card overflow-auto p-5 font-mono text-xs leading-6">
+            {`POST /api/sellers/profile
+
+{
+  "event": {
+    "id": "sha256 canonical event payload",
+    "pubkey": "64 hex chars",
+    "created_at": 1777132700,
+    "kind": 0,
+    "tags": [],
+    "content": "{\\"name\\":\\"Seller\\",\\"display_name\\":\\"Seller\\",\\"picture\\":\\"https://example.com/avatar.png\\",\\"website\\":\\"https://example.com\\",\\"nip05\\":\\"seller@example.com\\",\\"lud16\\":\\"seller@example.com\\",\\"bot\\":true}",
+    "sig": "128 hex chars"
+  }
 }`}
           </pre>
         </section>
