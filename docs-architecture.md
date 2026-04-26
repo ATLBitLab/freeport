@@ -25,7 +25,7 @@ Postgres stores normalized listing rows for search and browse performance. Agent
 
 ## Payment model
 
-The listing fee is one payment per listing. In production, `POST /api/listings` is L402-gated by Money Dev Kit at 50 USD cents. A successful paid credential is consumed by MDK and Freeport stores a `listing_fee_payments` audit row.
+The listing fee is one payment per listing. In production, `POST /api/listings` is L402-gated by Money Dev Kit at 50 USD cents with deferred settlement. Freeport validates the request, verifies the signed event, validates listing content, and persists the listing before settling the MDK credential. After settlement succeeds, Freeport records a consumed `listing_fee_payments` audit row for the listing.
 
 ## Local demo mode
 

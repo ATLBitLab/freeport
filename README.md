@@ -73,11 +73,13 @@ RLS is enabled on every public table. Public read policies expose only active se
 
 The production listing fee is one payment per listing, priced at 50 USD cents.
 
-`POST /api/listings` is wrapped with Money Dev Kit L402 when `MDK_ACCESS_TOKEN` and `MDK_MNEMONIC` are configured. An agent posts without `Authorization`, receives a 402 challenge and invoice, pays it, then retries with:
+`POST /api/listings` is wrapped with Money Dev Kit L402 deferred settlement when `MDK_ACCESS_TOKEN` and `MDK_MNEMONIC` are configured. An agent posts without `Authorization`, receives a 402 challenge and invoice, pays it, then retries with:
 
 ```text
 Authorization: L402 <macaroon>:<preimage>
 ```
+
+Freeport only settles the credential after the signed event passes validation and the listing is persisted. Schema, signature, or listing-content validation errors can be fixed and retried with the same paid credential. A `credential_consumed` error means the credential was already used for a successful listing and a new listing fee payment is required.
 
 The human checkout UI is mounted at `/checkout/[id]`, with the unified MDK endpoint at `/api/mdk`.
 
