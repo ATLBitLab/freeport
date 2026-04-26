@@ -6,7 +6,7 @@ import { ListingCard } from "@/components/listing-card";
 import { getRepository } from "@/lib/repository";
 
 export default async function Home() {
-  const listings = await getRepository().listListings({ limit: 6 });
+  const listings = await getRepository().listListings({ limit: 8 });
 
   return (
     <main className="flex-1">
