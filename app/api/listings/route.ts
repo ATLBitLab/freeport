@@ -5,6 +5,7 @@ import { LISTING_FEE_USD_CENTS } from "@/lib/constants";
 import { hasMdkConfig } from "@/lib/env";
 import { listingToPublicJson } from "@/lib/event-mapping";
 import { verifyNostrEvent } from "@/lib/nostr";
+import { revalidateListingDiscovery } from "@/lib/revalidation";
 import { getRepository } from "@/lib/repository";
 import type { ListingCategory, ListingFeePayment } from "@/lib/types";
 import { CreateListingRequestSchema, ListingCategorySchema, parseListingContent } from "@/lib/validation";
@@ -97,6 +98,7 @@ async function createListing(request: Request) {
 
     const listing = await repository.createListingFromEvent(parsed.event, payment);
     if (payment) await repository.consumePayment(payment.id, listing.id);
+    revalidateListingDiscovery(listing.id);
 
     return jsonResponse({ listing: listingToPublicJson(listing) }, { status: 201 });
   } catch (error) {

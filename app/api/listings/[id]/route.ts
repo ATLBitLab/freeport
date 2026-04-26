@@ -1,6 +1,7 @@
 import { errorResponse, jsonResponse, readJson, validationErrorResponse } from "@/lib/api";
 import { listingToPublicJson } from "@/lib/event-mapping";
 import { verifyNostrEvent } from "@/lib/nostr";
+import { revalidateListingDiscovery } from "@/lib/revalidation";
 import { getRepository } from "@/lib/repository";
 import { ListingEventSchema, parseListingContent } from "@/lib/validation";
 
@@ -48,6 +49,7 @@ export async function PATCH(request: Request, context: { params: Promise<{ id: s
     if (!updated) {
       return errorResponse({ code: "not_found", message: "Listing not found." }, 404);
     }
+    revalidateListingDiscovery(updated.id);
     return jsonResponse({ listing: listingToPublicJson(updated) });
   } catch (error) {
     return validationErrorResponse(error);

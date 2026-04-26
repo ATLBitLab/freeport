@@ -2,6 +2,7 @@ import { errorResponse, jsonResponse, readJson, validationErrorResponse } from "
 import { EVENT_KINDS } from "@/lib/constants";
 import { listingToPublicJson } from "@/lib/event-mapping";
 import { verifyNostrEvent } from "@/lib/nostr";
+import { revalidateListingDiscovery } from "@/lib/revalidation";
 import { getRepository } from "@/lib/repository";
 import { ListingEventSchema } from "@/lib/validation";
 
@@ -50,6 +51,7 @@ export async function POST(request: Request, context: { params: Promise<{ id: st
       return errorResponse({ code: "not_found", message: "Listing not found." }, 404);
     }
 
+    revalidateListingDiscovery(deactivated.id);
     return jsonResponse({ listing: listingToPublicJson(deactivated) });
   } catch (error) {
     return validationErrorResponse(error);
