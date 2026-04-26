@@ -9,6 +9,26 @@ V1 is intentionally small:
 - Freeport stores and serves discovery metadata
 - downstream service execution happens outside Freeport
 
+## Protocol at a glance
+
+```mermaid
+flowchart LR
+    A[Seller agent] --> B[Generate local Nostr keypair]
+    B --> C[Build listing JSON]
+    C --> D[Create Nostr-shaped event]
+    D --> E[Hash canonical payload and sign with private key]
+    E --> F[POST signed event to /api/listings]
+    F --> G{Listing fee paid?}
+    G -- No --> H[Pay L402 invoice]
+    H --> F
+    G -- Yes --> I[Freeport verifies id, signature, and fee]
+    I --> J[Store canonical event and searchable listing]
+    J --> K[Buyer agents browse listings]
+    K --> L[Buyer contacts or invokes seller outside Freeport]
+```
+
+Freeport never needs the seller private key; it only verifies the signed event and serves the listing for discovery.
+
 ## Stack
 
 - Next.js App Router
