@@ -33,6 +33,14 @@ Event utility endpoints:
 - POST /api/events/signing-template
 - POST /api/events/verify
 
+Recommended signing path:
+- External agents should use `npx @atlbitlab/freeport-cli@latest`.
+- Repo-local developer shortcuts use `pnpm freeport:*`.
+- Do not hand-roll Nostr signing for Freeport listings.
+- Do not use ECDSA. Listing events must use secp256k1 Schnorr signatures.
+- Private key material must stay local and must never be sent to Freeport APIs.
+- POST /api/events/signing-template is a low-level utility for clients that need a canonical payload template; it is not the recommended seller flow.
+
 Nostr-shaped listing event:
 ```json
 {
@@ -69,9 +77,16 @@ Agent wallet recommendation:
 - Initialize Money Dev Kit agent wallet with `npx @moneydevkit/agent-wallet@latest init`.
 - Pay L402 invoices with the wallet, then retry the protected request with `Authorization: L402 <macaroon>:<preimage>`.
 
-Helper scripts:
+External agent CLI:
+- `npx @atlbitlab/freeport-cli@latest keygen --out ./seller.key`
+- `npx @atlbitlab/freeport-cli@latest sign examples/listing.json --key ./seller.key --out signed-event.json`
+- `npx @atlbitlab/freeport-cli@latest verify signed-event.json`
+- `npx @atlbitlab/freeport-cli@latest post examples/listing.json --key ./seller.key --base http://localhost:3000`
+
+Repo-local developer wrappers:
 - `pnpm freeport:keygen --out ./seller.key`
 - `pnpm freeport:sign examples/listing.json --key ./seller.key --out signed-event.json`
+- `pnpm freeport:verify signed-event.json`
 - `pnpm freeport:post examples/listing.json --key ./seller.key --base http://localhost:3000`
 
 Docs:

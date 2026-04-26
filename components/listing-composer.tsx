@@ -3,8 +3,7 @@
 import { AlertCircle, Check, KeyRound, Send } from "lucide-react";
 import { FormEvent, useMemo, useState } from "react";
 
-import { EVENT_KINDS } from "@/lib/constants";
-import { generateKeypair, privateKeyToPubkey, signEvent } from "@/lib/nostr";
+import { generateKeypair, privateKeyToPubkey, signListingContent } from "@/lib/nostr";
 import type { ListingCategory, ListingContent } from "@/lib/types";
 
 type Status = { type: "idle" | "ok" | "error"; message: string; details?: unknown };
@@ -59,19 +58,10 @@ export function ListingComposer() {
         return;
       }
 
-      const signed = signEvent(
-        {
-          pubkey: keys.pubkey,
-          created_at: Math.floor(Date.now() / 1000),
-          kind: EVENT_KINDS.listing,
-          tags: [
-            ["category", payload.category],
-            ...payload.tags.map((tag) => ["t", tag]),
-          ],
-          content: JSON.stringify(payload),
-        },
-        keys.privateKey,
-      );
+      const signed = signListingContent({
+        content: payload,
+        privateKey: keys.privateKey,
+      });
 
       const listingResponse = await fetch("/api/listings", {
         method: "POST",

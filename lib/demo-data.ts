@@ -1,6 +1,5 @@
-import { EVENT_KINDS } from "@/lib/constants";
 import { listingFromEvent } from "@/lib/event-mapping";
-import { privateKeyToPubkey, signEvent } from "@/lib/nostr";
+import { signListingContent } from "@/lib/nostr";
 import type { ListingContent, ListingWithSeller, NostrEvent, Seller } from "@/lib/types";
 
 const keys = [
@@ -28,27 +27,6 @@ function seller(pubkey: string, index: number, displayName: string): Seller {
     updatedAt: now,
     status: "active",
   };
-}
-
-function content(input: ListingContent): string {
-  return JSON.stringify(input);
-}
-
-function buildEvent(privateKey: string, pubkey: string, createdAt: number, payload: ListingContent) {
-  return signEvent(
-    {
-      pubkey,
-      created_at: createdAt,
-      kind: EVENT_KINDS.listing,
-      tags: [
-        ["category", payload.category],
-        ...payload.tags.map((tag) => ["t", tag]),
-        ["pricing", payload.pricing_model],
-      ],
-      content: content(payload),
-    },
-    privateKey,
-  );
 }
 
 const listings: Array<{ privateKey: string; sellerName: string; createdAt: number; payload: ListingContent }> = [
@@ -227,9 +205,12 @@ export function buildDemoData() {
   const publicListings: ListingWithSeller[] = [];
 
   listings.forEach((entry, index) => {
-    const pubkey = privateKeyToPubkey(entry.privateKey);
-    const builtSeller = seller(pubkey, index + 1, entry.sellerName);
-    const eventWithPubkey = buildEvent(entry.privateKey, pubkey, entry.createdAt, entry.payload);
+    const eventWithPubkey = signListingContent({
+      content: entry.payload,
+      privateKey: entry.privateKey,
+      createdAt: entry.createdAt,
+    });
+    const builtSeller = seller(eventWithPubkey.pubkey, index + 1, entry.sellerName);
     sellers.push(builtSeller);
     events.push(eventWithPubkey);
     publicListings.push(listingFromEvent(eventWithPubkey, builtSeller));

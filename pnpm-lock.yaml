@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@atlbitlab/freeport-cli':
+        specifier: workspace:*
+        version: link:packages/freeport-cli
       '@moneydevkit/nextjs':
         specifier: ^0.16.0
         version: 0.16.0(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(next@16.2.4(@babel/core@7.29.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -57,6 +60,28 @@ importers:
       tailwindcss:
         specifier: ^4
         version: 4.2.4
+      tsx:
+        specifier: ^4.21.0
+        version: 4.21.0
+      typescript:
+        specifier: ^5
+        version: 5.9.3
+
+  packages/freeport-cli:
+    dependencies:
+      '@noble/hashes':
+        specifier: ^2.2.0
+        version: 2.2.0
+      '@noble/secp256k1':
+        specifier: ^3.1.0
+        version: 3.1.0
+      zod:
+        specifier: ^4.3.6
+        version: 4.3.6
+    devDependencies:
+      '@types/node':
+        specifier: ^20
+        version: 20.19.39
       tsx:
         specifier: ^4.21.0
         version: 4.21.0

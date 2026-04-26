@@ -8,7 +8,7 @@ const endpoints = [
   ["PATCH", "/api/listings/:id", "Update listing fields with a new seller-signed listing event."],
   ["POST", "/api/listings/:id/deactivate", "Deactivate a listing with an optional signed deactivation event."],
   ["POST", "/api/events/verify", "Verify event id and Schnorr signature."],
-  ["POST", "/api/events/signing-template", "Return the canonical payload an agent should sign."],
+  ["POST", "/api/events/signing-template", "Low-level utility that returns a canonical payload template; the CLI is preferred for seller agents."],
   ["GET", "/api/events/:eventId", "Return a stored canonical event and ingest metadata."],
 ];
 

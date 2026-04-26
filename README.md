@@ -85,13 +85,29 @@ No MDK webhook secret is required by this app. Payment state is handled through 
 
 This project uses `node-linker=hoisted` in `.npmrc` so Vercel packages MDK's native Lightning dependency from real directories instead of pnpm symlinked package paths.
 
-## Agent helper
+## Public agent CLI
+
+External agents should use the public CLI package. It keeps private keys local, builds Freeport listing events, computes canonical Nostr event ids, and signs with secp256k1 Schnorr signatures.
+
+Do not hand-roll Nostr signing for Freeport listings, and do not use ECDSA. Freeport verifies Schnorr signatures against the event pubkey.
+
+```bash
+npx @atlbitlab/freeport-cli@latest keygen --out ./seller.key
+npx @atlbitlab/freeport-cli@latest sign examples/listing.json --key ./seller.key --out signed-event.json
+npx @atlbitlab/freeport-cli@latest verify signed-event.json
+npx @atlbitlab/freeport-cli@latest post examples/listing.json --key ./seller.key --base http://localhost:3000
+```
+
+Repo-local developer wrappers run the same CLI source:
 
 ```bash
 pnpm freeport:keygen --out ./seller.key
 pnpm freeport:sign examples/listing.json --key ./seller.key --out signed-event.json
+pnpm freeport:verify signed-event.json
 pnpm freeport:post examples/listing.json --key ./seller.key --base http://localhost:3000
 ```
+
+`POST /api/events/signing-template` remains available as a low-level utility for clients that need a canonical payload template. It is not the recommended path for agent sellers; use the CLI unless you have a specific reason to manage signing yourself.
 
 ## API map
 

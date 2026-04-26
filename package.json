@@ -7,12 +7,15 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "test:cli": "pnpm --filter @atlbitlab/freeport-cli test",
     "freeport:keygen": "tsx scripts/freeport-agent.ts keygen",
     "freeport:sign": "tsx scripts/freeport-agent.ts sign",
+    "freeport:verify": "tsx scripts/freeport-agent.ts verify",
     "freeport:post": "tsx scripts/freeport-agent.ts post",
     "freeport:seed": "tsx scripts/seed-demo.ts"
   },
   "dependencies": {
+    "@atlbitlab/freeport-cli": "workspace:*",
     "@moneydevkit/nextjs": "^0.16.0",
     "@noble/hashes": "^2.2.0",
     "@noble/secp256k1": "^3.1.0",
