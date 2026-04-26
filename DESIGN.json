@@ -1,0 +1,251 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-04-26T12:00:47Z",
+  "title": "Design System: Freeport",
+  "extensions": {
+    "colorMeta": {
+      "parchment-bg": {
+        "role": "neutral",
+        "displayName": "Aged Parchment",
+        "canonical": "oklch(0.966 0.018 88)",
+        "tonalRamp": [
+          "oklch(0.18 0.018 88)",
+          "oklch(0.30 0.018 88)",
+          "oklch(0.42 0.018 88)",
+          "oklch(0.54 0.018 88)",
+          "oklch(0.66 0.018 88)",
+          "oklch(0.78 0.018 88)",
+          "oklch(0.90 0.018 88)",
+          "oklch(0.966 0.018 88)"
+        ]
+      },
+      "ink-strong": {
+        "role": "primary",
+        "displayName": "Blackened Ink",
+        "canonical": "oklch(0.145 0.02 101)",
+        "tonalRamp": [
+          "oklch(0.145 0.02 101)",
+          "oklch(0.24 0.02 101)",
+          "oklch(0.34 0.02 101)",
+          "oklch(0.46 0.02 101)",
+          "oklch(0.58 0.02 101)",
+          "oklch(0.70 0.02 101)",
+          "oklch(0.82 0.02 101)",
+          "oklch(0.94 0.02 101)"
+        ]
+      },
+      "brass": {
+        "role": "primary",
+        "displayName": "Muted Brass",
+        "canonical": "oklch(0.62 0.13 72)",
+        "tonalRamp": [
+          "oklch(0.18 0.08 72)",
+          "oklch(0.28 0.10 72)",
+          "oklch(0.40 0.12 72)",
+          "oklch(0.52 0.13 72)",
+          "oklch(0.62 0.13 72)",
+          "oklch(0.74 0.10 72)",
+          "oklch(0.86 0.07 72)",
+          "oklch(0.95 0.04 72)"
+        ]
+      },
+      "sea-glass": {
+        "role": "secondary",
+        "displayName": "Sea Glass",
+        "canonical": "oklch(0.52 0.075 188)",
+        "tonalRamp": [
+          "oklch(0.18 0.05 188)",
+          "oklch(0.28 0.06 188)",
+          "oklch(0.40 0.07 188)",
+          "oklch(0.52 0.075 188)",
+          "oklch(0.64 0.065 188)",
+          "oklch(0.76 0.05 188)",
+          "oklch(0.88 0.035 188)",
+          "oklch(0.95 0.02 188)"
+        ]
+      },
+      "signal-vermilion": {
+        "role": "tertiary",
+        "displayName": "Signal Vermilion",
+        "canonical": "oklch(0.59 0.14 38)",
+        "tonalRamp": [
+          "oklch(0.18 0.08 38)",
+          "oklch(0.30 0.10 38)",
+          "oklch(0.42 0.12 38)",
+          "oklch(0.54 0.14 38)",
+          "oklch(0.66 0.11 38)",
+          "oklch(0.78 0.08 38)",
+          "oklch(0.90 0.05 38)",
+          "oklch(0.95 0.03 38)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Hero headlines and stamped page identity only."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Subpage headers and listing detail titles."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Cards, compact panels, and repeated item headings."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Marketplace copy, docs, summaries, and onboarding."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Permit stamps, categories, methods, keys, and short metadata."
+      }
+    },
+    "shadows": [
+      {
+        "name": "paper-rest",
+        "value": "inset 0 0 0 1px color-mix(in oklch, var(--panel) 78%, transparent), 0 14px 40px color-mix(in oklch, var(--paper-shadow) 12%, transparent)",
+        "purpose": "Default card and panel lift."
+      },
+      {
+        "name": "manifest-lift",
+        "value": "inset 0 0 0 1px color-mix(in oklch, var(--panel) 85%, transparent), 0 24px 60px color-mix(in oklch, var(--ink) 14%, transparent)",
+        "purpose": "Signature landing manifest plate only."
+      }
+    ],
+    "motion": [
+      {
+        "name": "state-ease",
+        "value": "180ms ease",
+        "purpose": "Button and card hover transitions."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "mobile-nav",
+        "value": "below 40rem"
+      },
+      {
+        "name": "mobile-shell",
+        "value": "720px"
+      },
+      {
+        "name": "desktop-grid",
+        "value": "1024px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Primary action for the page or form.",
+      "html": "<button class=\"ds-button-primary\">Search</button>",
+      "css": ".ds-button-primary { min-height: 2.75rem; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; border-radius: 8px; padding: 0.7rem 1rem; font-family: Host Grotesk, ui-sans-serif, system-ui, sans-serif; font-weight: 700; background: var(--ink-strong, oklch(0.145 0.02 101)); color: var(--background, oklch(0.966 0.018 88)); border: 1px solid color-mix(in oklch, var(--accent, oklch(0.62 0.13 72)) 34%, var(--ink-strong, oklch(0.145 0.02 101))); box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--accent, oklch(0.62 0.13 72)) 18%, transparent); transition: transform 180ms ease, background-color 180ms ease, border-color 180ms ease, box-shadow 180ms ease; } .ds-button-primary:hover { transform: translateY(-1px); } .ds-button-primary:focus-visible { outline: 3px solid color-mix(in oklch, var(--accent, oklch(0.62 0.13 72)) 22%, transparent); outline-offset: 2px; }"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Secondary navigation, back links, and card affordances.",
+      "html": "<button class=\"ds-button-ghost\">View event JSON</button>",
+      "css": ".ds-button-ghost { min-height: 2.75rem; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; border-radius: 8px; padding: 0.7rem 1rem; font-family: Host Grotesk, ui-sans-serif, system-ui, sans-serif; font-weight: 700; background: color-mix(in oklch, var(--panel, oklch(0.988 0.012 87)) 80%, transparent); color: var(--foreground, oklch(0.185 0.027 106)); border: 1px solid var(--line, oklch(0.77 0.033 94)); transition: transform 180ms ease, background-color 180ms ease, border-color 180ms ease; } .ds-button-ghost:hover { transform: translateY(-1px); border-color: color-mix(in oklch, var(--accent, oklch(0.62 0.13 72)) 46%, var(--line, oklch(0.77 0.033 94))); } .ds-button-ghost:focus-visible { outline: 3px solid color-mix(in oklch, var(--accent, oklch(0.62 0.13 72)) 22%, transparent); outline-offset: 2px; }"
+    },
+    {
+      "name": "Text Field",
+      "kind": "input",
+      "refersTo": "field",
+      "description": "Paper field for search, tags, and seller inputs.",
+      "html": "<label class=\"ds-field-wrap\"><span class=\"ds-field-label\">Search listings</span><input class=\"ds-field\" placeholder=\"Search agents, APIs, workflows\" /></label>",
+      "css": ".ds-field-wrap { display: grid; gap: 0.4rem; } .ds-field-label { font: 700 0.72rem/1.25 Azeret Mono, ui-monospace, monospace; text-transform: uppercase; color: var(--muted, oklch(0.47 0.035 112)); } .ds-field { width: 100%; border: 1px solid var(--line, oklch(0.77 0.033 94)); border-radius: 8px; background: color-mix(in oklch, var(--panel, oklch(0.988 0.012 87)) 88%, var(--background, oklch(0.966 0.018 88))); color: var(--foreground, oklch(0.185 0.027 106)); padding: 0.75rem 0.85rem; outline: none; font: 400 1rem/1.5 Host Grotesk, ui-sans-serif, system-ui, sans-serif; } .ds-field:focus { border-color: var(--accent, oklch(0.62 0.13 72)); box-shadow: 0 0 0 3px color-mix(in oklch, var(--accent, oklch(0.62 0.13 72)) 22%, transparent); }"
+    },
+    {
+      "name": "Listing Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Marketplace listing preview with category mark, tags, seller, and open affordance.",
+      "html": "<article class=\"ds-listing-card\"><div class=\"ds-listing-top\"><span class=\"ds-category-mark\">⌘</span><span class=\"ds-label\">L402 APIs</span></div><h3>Lightning quote and route probe API</h3><p>Returns current Lightning payment route probes and fee estimates for agents.</p><div class=\"ds-tags\"><span>lightning</span><span>routing</span><span>l402</span></div><footer><div><span class=\"ds-label\">Seller</span><strong>Quote Buoy</strong></div><button class=\"ds-open\">↗</button></footer></article>",
+      "css": ".ds-listing-card { display: flex; flex-direction: column; gap: 1.25rem; border: 1px solid var(--line, oklch(0.77 0.033 94)); border-radius: 8px; background: linear-gradient(180deg, color-mix(in oklch, var(--panel, oklch(0.988 0.012 87)) 96%, transparent), color-mix(in oklch, var(--panel-strong, oklch(0.926 0.024 87)) 46%, var(--panel, oklch(0.988 0.012 87)))), var(--panel, oklch(0.988 0.012 87)); color: var(--foreground, oklch(0.185 0.027 106)); padding: 1.25rem; box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--panel, oklch(0.988 0.012 87)) 78%, transparent), 0 14px 40px color-mix(in oklch, var(--paper-shadow, oklch(0.62 0.035 86)) 12%, transparent); transition: transform 180ms ease, border-color 180ms ease; } .ds-listing-card:hover { transform: translateY(-2px); border-color: color-mix(in oklch, var(--accent, oklch(0.62 0.13 72)) 46%, var(--line, oklch(0.77 0.033 94))); } .ds-listing-top, .ds-listing-card footer { display: flex; align-items: center; justify-content: space-between; gap: 1rem; } .ds-category-mark { display: grid; width: 2.5rem; height: 2.5rem; place-items: center; border-radius: 8px; background: color-mix(in oklch, var(--accent, oklch(0.62 0.13 72)) 14%, var(--panel, oklch(0.988 0.012 87))); color: var(--accent-dark, oklch(0.36 0.084 70)); } .ds-label { font: 700 0.72rem/1.25 Azeret Mono, ui-monospace, monospace; text-transform: uppercase; color: var(--muted, oklch(0.47 0.035 112)); } .ds-listing-card h3 { margin: 0; font: 900 1.25rem/1.25 Host Grotesk, ui-sans-serif, system-ui, sans-serif; } .ds-listing-card p { margin: 0; color: var(--muted, oklch(0.47 0.035 112)); font: 400 0.875rem/1.5 Host Grotesk, ui-sans-serif, system-ui, sans-serif; } .ds-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; } .ds-tags span { border: 1px solid var(--line, oklch(0.77 0.033 94)); border-radius: 999px; background: color-mix(in oklch, var(--panel-strong, oklch(0.926 0.024 87)) 48%, transparent); color: var(--muted, oklch(0.47 0.035 112)); padding: 0.28rem 0.65rem; font: 700 0.75rem/1 Host Grotesk, ui-sans-serif, system-ui, sans-serif; } .ds-listing-card footer { border-top: 1px solid var(--line, oklch(0.77 0.033 94)); padding-top: 1rem; } .ds-listing-card strong { display: block; font: 700 0.875rem/1.4 Host Grotesk, ui-sans-serif, system-ui, sans-serif; } .ds-open { width: 2.75rem; height: 2.75rem; border-radius: 8px; border: 1px solid var(--line, oklch(0.77 0.033 94)); background: color-mix(in oklch, var(--panel, oklch(0.988 0.012 87)) 80%, transparent); color: var(--foreground, oklch(0.185 0.027 106)); }"
+    },
+    {
+      "name": "Site Navigation",
+      "kind": "nav",
+      "refersTo": "site-shell",
+      "description": "Sticky ink harbor bar with brand mark and compact actions.",
+      "html": "<header class=\"ds-nav\"><a class=\"ds-brand\"><span>⚓</span><strong>Freeport</strong></a><nav><a>Browse</a><a>Docs</a><button>+ Onboard</button></nav></header>",
+      "css": ".ds-nav { min-height: 4rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 0 2rem; background: linear-gradient(180deg, color-mix(in oklch, var(--ink-strong, oklch(0.145 0.02 101)) 96%, var(--sea-dark, oklch(0.29 0.05 191))), color-mix(in oklch, var(--ink, oklch(0.22 0.025 103)) 92%, var(--sea-dark, oklch(0.29 0.05 191)))); color: var(--background, oklch(0.966 0.018 88)); } .ds-brand { display: inline-flex; align-items: center; gap: 0.5rem; color: inherit; text-decoration: none; } .ds-brand span { display: grid; width: 2rem; height: 2rem; place-items: center; border-radius: 8px; background: color-mix(in oklch, var(--accent, oklch(0.62 0.13 72)) 22%, var(--ink-strong, oklch(0.145 0.02 101))); box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--accent, oklch(0.62 0.13 72)) 50%, transparent); } .ds-brand strong { font: 700 1.125rem/1 Alegreya SC, Host Grotesk, ui-serif, serif; } .ds-nav nav { display: flex; gap: 0.25rem; align-items: center; } .ds-nav nav a, .ds-nav button { min-height: 2.75rem; border-radius: 8px; padding: 0.7rem 1rem; font: 700 0.875rem/1 Host Grotesk, ui-sans-serif, system-ui, sans-serif; } .ds-nav nav a { color: color-mix(in oklch, var(--background, oklch(0.966 0.018 88)) 88%, var(--accent, oklch(0.62 0.13 72))); border: 1px solid color-mix(in oklch, var(--background, oklch(0.966 0.018 88)) 18%, transparent); background: color-mix(in oklch, var(--background, oklch(0.966 0.018 88)) 5%, transparent); } .ds-nav button { color: var(--ink-strong, oklch(0.145 0.02 101)); background: var(--accent, oklch(0.62 0.13 72)); border: 1px solid color-mix(in oklch, var(--accent, oklch(0.62 0.13 72)) 72%, var(--background, oklch(0.966 0.018 88))); }"
+    },
+    {
+      "name": "Page Header",
+      "kind": "custom",
+      "refersTo": "page-header",
+      "description": "Manifest intro panel for public subpages.",
+      "html": "<section class=\"ds-page-header\"><p>Directory</p><h1>Browse work agents can buy.</h1></section>",
+      "css": ".ds-page-header { position: relative; display: grid; gap: 0.75rem; overflow: hidden; border: 1px solid var(--line, oklch(0.77 0.033 94)); border-radius: 10px; background: linear-gradient(120deg, color-mix(in oklch, var(--panel, oklch(0.988 0.012 87)) 96%, transparent), color-mix(in oklch, var(--panel-strong, oklch(0.926 0.024 87)) 58%, var(--panel, oklch(0.988 0.012 87)))), var(--panel, oklch(0.988 0.012 87)); padding: 4rem; color: var(--foreground, oklch(0.185 0.027 106)); } .ds-page-header:after { content: \"\"; pointer-events: none; position: absolute; inset: 0; background-image: linear-gradient(90deg, color-mix(in oklch, var(--line, oklch(0.77 0.033 94)) 20%, transparent) 1px, transparent 1px), linear-gradient(color-mix(in oklch, var(--line, oklch(0.77 0.033 94)) 18%, transparent) 1px, transparent 1px); background-size: 28px 28px; mask-image: linear-gradient(120deg, transparent 12%, black 45%, transparent 88%); } .ds-page-header > * { position: relative; z-index: 1; } .ds-page-header p { width: max-content; border: 1px solid color-mix(in oklch, var(--accent, oklch(0.62 0.13 72)) 42%, var(--line, oklch(0.77 0.033 94))); border-radius: 999px; background: color-mix(in oklch, var(--accent, oklch(0.62 0.13 72)) 10%, var(--panel, oklch(0.988 0.012 87))); color: var(--accent-dark, oklch(0.36 0.084 70)); padding: 0.35rem 0.7rem; margin: 0; font: 700 0.72rem/1.25 Azeret Mono, ui-monospace, monospace; text-transform: uppercase; } .ds-page-header h1 { margin: 0; max-width: 16ch; font: 700 3rem/1.25 Alegreya SC, Host Grotesk, ui-serif, serif; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Harbor Ledger",
+    "overview": "Freeport is a machine-commerce marketplace presented as a working free port: merchants arrive, agents inspect signed manifests, and useful work changes hands without ceremony. The interface should feel like serious infrastructure for agent commerce, but the surface language comes from stamped ledgers, harbor permits, brass seals, and weathered paper. The brand is light, technical, and tactile. It uses a parchment field, visible ledger grids, dark ink, brass controls, sea-glass category marks, and compact operational copy. The pirate motif is atmosphere, not costume. It should suggest a free port of merchants, not a novelty theme.",
+    "keyCharacteristics": [
+      "Light parchment surfaces with measured ink contrast.",
+      "Brass accents used for action, stamp, and permit language.",
+      "Sea-glass and vermilion accents reserved for category distinction.",
+      "Display type that feels like a stamped label, paired with a direct technical sans.",
+      "Visible grid and manifest patterns that support the marketplace story.",
+      "Compact, HTTP-first, agent-readable layouts."
+    ],
+    "rules": [
+      {
+        "name": "The Brass Is a Stamp Rule",
+        "body": "Brass is a sign of permission, action, or verification. Do not spread it across large decorative backgrounds.",
+        "section": "colors"
+      },
+      {
+        "name": "The Paper Has Memory Rule",
+        "body": "Surfaces should show subtle grid, line, or manifest structure when they are important. Plain blank cards are allowed only for repeated listing content.",
+        "section": "colors"
+      },
+      {
+        "name": "The No Neon Port Rule",
+        "body": "Freeport is not a crypto casino. Avoid electric purple, cyan glow, black-neon palettes, and gratuitous gradients.",
+        "section": "colors"
+      },
+      {
+        "name": "The Stamped Headline Rule",
+        "body": "Display type is for declarations, seals, and page identity. Do not use it for body copy, field labels, or dense UI controls.",
+        "section": "typography"
+      },
+      {
+        "name": "The Operational Body Rule",
+        "body": "Body copy must stay plain-language and agent-readable. If a human must decode protocol theater before understanding value, the copy is wrong.",
+        "section": "typography"
+      },
+      {
+        "name": "The Desk Surface Rule",
+        "body": "Every elevated element must still feel physically close to the page. If it looks like glass, plastic, or a floating modal, it is too much.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do lead with the marketplace: what agents can buy, sell, and browse.",
+      "Do keep listings and docs compact, scannable, and operational.",
+      "Do use the parchment grid and manifest panels to make public pages feel like a free port ledger.",
+      "Do reserve brass for action, verification, focus, and stamp language.",
+      "Do use category color only where it improves scanning.",
+      "Do keep the pirate motif tasteful: harbor, manifest, permit, seal, cargo, port.",
+      "Do preserve WCAG AA contrast, keyboard navigation, visible focus states, and reduced-motion compatibility."
+    ],
+    "donts": [
+      "Don't use generic AI SaaS landing pages, crypto hype pages, oversized protocol explainers, decorative card grids, gratuitous gradients, or jargon that makes humans work before they understand the value.",
+      "Don't turn the pirate motif into novelty copy, cartoon treasure maps, skull-heavy decoration, or roleplay language.",
+      "Don't use gradient text, glassmorphism, side-stripe borders, or the hero-metric template.",
+      "Don't build repeated icon-heading-text card grids as a substitute for marketplace content.",
+      "Don't let protocol details compete with the primary action on public pages.",
+      "Don't use pure black, pure white, neon purple, or blue-on-black crypto styling.",
+      "Don't create multiple competing CTAs when one clear next action will do."
+    ]
+  }
+}
