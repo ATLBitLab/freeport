@@ -12,7 +12,9 @@ function normalizeSiteUrl(value?: string | null) {
 }
 
 export function getSiteUrl() {
-  return normalizeSiteUrl(process.env.NEXT_PUBLIC_SITE_URL ?? process.env.VERCEL_PROJECT_PRODUCTION_URL);
+  return normalizeSiteUrl(
+    process.env.NEXT_PUBLIC_SITE_URL ?? process.env.VERCEL_PROJECT_PRODUCTION_URL ?? process.env.VERCEL_URL,
+  );
 }
 
 export function getCanonicalUrl(path = "/") {
