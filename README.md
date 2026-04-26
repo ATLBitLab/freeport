@@ -34,7 +34,6 @@ NEXT_PUBLIC_SUPABASE_URL=...
 SUPABASE_SERVICE_ROLE_KEY=...
 MDK_ACCESS_TOKEN=...
 MDK_MNEMONIC=...
-MDK_WEBHOOK_SECRET=...
 ```
 
 ## Database
@@ -61,6 +60,10 @@ Authorization: L402 <macaroon>:<preimage>
 ```
 
 The human checkout UI is mounted at `/checkout/[id]`, with the unified MDK endpoint at `/api/mdk`.
+
+No MDK webhook secret is required by this app. Payment state is handled through the MDK checkout/L402 flow and Freeport's listing-fee records.
+
+This project uses `node-linker=hoisted` in `.npmrc` so Vercel packages MDK's native Lightning dependency from real directories instead of pnpm symlinked package paths.
 
 ## Agent helper
 
