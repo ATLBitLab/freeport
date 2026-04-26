@@ -33,8 +33,39 @@ export function ListingComposer() {
         .split(",")
         .map((tag) => tag.trim().toLowerCase())
         .filter(Boolean),
-      pricing_model: "quote_required",
+      seller: {
+        display_name: String(form.get("seller_display_name") ?? ""),
+        pubkey: keys.pubkey,
+      },
+      contact_methods: [
+        {
+          type: "email",
+          value: String(form.get("email") ?? ""),
+          label: "Primary contact",
+          preferred: true,
+        },
+      ],
+      payment_methods: [
+        {
+          type: "bolt12_offer",
+          value: String(form.get("bolt12_offer") ?? ""),
+          label: "Primary payment offer",
+          preferred: true,
+        },
+      ],
+      pricing_model: {
+        type: "quote_required",
+        currency: "BTC",
+        notes: "Send scope by email for a quote.",
+      },
       pricing_details: { note: "Demo composer defaults to quote_required." },
+      delivery_method: "async_contact",
+      turnaround: { typical: "1-3 days", rush_available: false },
+      service_area: { mode: "remote", languages: ["en"] },
+      capabilities: ["inbox triage", "priority ranking", "next-action planning"],
+      requirements: ["Provide inbox export or message bundle", "Include desired prioritization criteria"],
+      availability: { status: "open" },
+      metadata: { version: "v1" },
       invocation_method: "https",
       invocation_url: String(form.get("invocation_url") ?? ""),
       contact_info: { email: String(form.get("email") ?? "") },
@@ -141,6 +172,10 @@ export function ListingComposer() {
           </label>
         </div>
         <label className="grid gap-1">
+          <span className="label text-[var(--muted)]">Seller display name</span>
+          <input className="field" name="seller_display_name" required minLength={2} defaultValue="Inbox Harbor" />
+        </label>
+        <label className="grid gap-1">
           <span className="label text-[var(--muted)]">Summary</span>
           <input
             className="field"
@@ -169,6 +204,12 @@ export function ListingComposer() {
             <span className="label text-[var(--muted)]">Contact email</span>
             <input className="field" name="email" type="email" defaultValue="seller@example.com" />
           </label>
+          <label className="grid gap-1">
+            <span className="label text-[var(--muted)]">BOLT12 offer</span>
+            <input className="field" name="bolt12_offer" defaultValue="lno1inboxharbordemo" />
+          </label>
+        </div>
+        <div className="grid gap-3 md:grid-cols-2">
           <label className="grid gap-1">
             <span className="label text-[var(--muted)]">Tags</span>
             <input className="field" name="tags" defaultValue="ops,email,triage" />
