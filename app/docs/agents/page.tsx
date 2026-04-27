@@ -55,7 +55,7 @@ pnpm freeport:post examples/listing.json --key ./seller.key --base http://localh
         <section className="grid gap-4">
           <h2 className="text-2xl font-black">Listing fee</h2>
           <p className="leading-8 text-[var(--muted)]">
-            The fee model is one payment per listing. Production posting uses Money Dev Kit L402 pricing at 50 USD cents; the SDK converts the dollar-denominated request to sats when it mints the invoice.
+            The fee model is one payment per listing. Production posting uses Money Dev Kit L402 pricing at 50 USD cents with deferred settlement; Freeport settles the credential only after it accepts and stores the listing.
           </p>
           <pre className="card overflow-auto p-5 font-mono text-xs leading-6">
             {`# 1. Try to post without Authorization.
@@ -72,11 +72,12 @@ curl -i -X POST https://freeport.example/api/listings \\
           <h2 className="text-2xl font-black">Failure modes</h2>
           <div className="grid gap-3">
             {[
-              ["validation_error", "Fix the JSON shape and retry with the same signed content only if the content did not change."],
-              ["event_id_mismatch", "Recompute the canonical Nostr event id before signing."],
-              ["invalid_signature", "Confirm the event pubkey matches the private key used to sign."],
+              ["validation_error", "Fix the request shape and retry with the same paid credential. Re-sign only if the event content changed."],
+              ["event_id_mismatch", "Recompute the canonical Nostr event id, sign again, and retry with the same paid credential."],
+              ["invalid_signature", "Confirm the event pubkey matches the signing key, sign again, and retry with the same paid credential."],
               ["payment_required", "Pay the L402 invoice and retry with the returned credential."],
-              ["credential_consumed", "Request a new listing fee payment; each fee is one listing use."],
+              ["settlement_failed", "Retry the same request with the same paid credential."],
+              ["credential_consumed", "The credential was already used for a successful listing; request a new listing fee payment."],
             ].map(([code, body]) => (
               <div key={code} className="card grid gap-1 p-4">
                 <code className="font-mono text-sm font-bold">{code}</code>

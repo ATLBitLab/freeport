@@ -1,4 +1,4 @@
-import { withPayment } from "@moneydevkit/nextjs/server";
+import { withDeferredSettlement, type SettleResult } from "@moneydevkit/nextjs/server";
 
 import { errorResponse, jsonResponse, parseLimit, readJson, validationErrorResponse } from "@/lib/api";
 import { LISTING_FEE_USD_CENTS } from "@/lib/constants";
@@ -49,8 +49,11 @@ export async function GET(request: Request) {
   });
 }
 
-async function createListing(request: Request) {
+type SettleListingPayment = () => Promise<SettleResult>;
+
+async function createListing(request: Request, settlePayment: SettleListingPayment | null = null) {
   const repository = getRepository();
+  const mdkConfigured = hasMdkConfig();
 
   try {
     const parsed = CreateListingRequestSchema.parse(await readJson(request));
@@ -70,14 +73,16 @@ async function createListing(request: Request) {
 
     let payment: ListingFeePayment | null = null;
 
-    if (hasMdkConfig()) {
-      payment = await repository.createPayment({
-        paymentStatus: "paid",
-        proofPayload: {
-          source: "mdk_l402",
-          authorization_present: Boolean(request.headers.get("authorization")),
-        },
-      });
+    if (mdkConfigured) {
+      if (!settlePayment) {
+        return errorResponse(
+          {
+            code: "configuration_error",
+            message: "Deferred settlement is not configured for this listing request.",
+          },
+          500,
+        );
+      }
     } else {
       if (!parsed.listing_fee_payment_id) {
         return errorResponse(
@@ -102,8 +107,45 @@ async function createListing(request: Request) {
       payment = existingPayment;
     }
 
-    const listing = await repository.createListingFromEvent(parsed.event, payment);
-    if (payment) await repository.consumePayment(payment.id, listing.id);
+    const listing = await repository.createListingFromEvent(parsed.event);
+
+    if (settlePayment) {
+      const settlement = await settlePayment();
+      if (!settlement.settled) {
+        return errorResponse(
+          {
+            code: "settlement_failed",
+            message: "Unable to mark the L402 credential as consumed. Retry with the same credential.",
+            details: { reason: settlement.error },
+          },
+          500,
+        );
+      }
+
+      payment = await repository.createPayment({
+        sellerId: listing.sellerId,
+        paymentStatus: "paid",
+        proofPayload: {
+          source: "mdk_l402",
+          settlement: "deferred",
+          authorization_present: Boolean(request.headers.get("authorization")),
+        },
+      });
+    }
+
+    if (payment) {
+      const consumedPayment = await repository.consumePayment(payment.id, listing.id);
+      if (!consumedPayment) {
+        return errorResponse(
+          {
+            code: "payment_consumption_failed",
+            message: "Listing was accepted, but Freeport could not record the listing fee consumption.",
+          },
+          500,
+        );
+      }
+    }
+
     revalidateListingDiscovery(listing.id);
 
     return jsonResponse({ listing: listingToPublicJson(listing) }, { status: 201 });
@@ -112,8 +154,12 @@ async function createListing(request: Request) {
   }
 }
 
+function createListingWithoutMdk(request: Request) {
+  return createListing(request);
+}
+
 export const POST = hasMdkConfig()
-  ? withPayment(
+  ? withDeferredSettlement(
       {
         amount: LISTING_FEE_USD_CENTS,
         currency: "USD",
@@ -121,4 +167,4 @@ export const POST = hasMdkConfig()
       },
       createListing,
     )
-  : createListing;
+  : createListingWithoutMdk;

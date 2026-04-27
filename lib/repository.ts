@@ -127,21 +127,19 @@ class MemoryRepository {
     return seller;
   }
 
-  async createListingFromEvent(event: NostrEvent, payment?: ListingFeePayment | null) {
+  async createListingFromEvent(event: NostrEvent) {
     const seller = await this.upsertSeller({ pubkey: event.pubkey });
     const listing = listingFromEvent(event, seller);
-    this.store.events.push(eventRecordFromEvent(event, listing.id));
+    if (!this.store.events.some((existing) => existing.eventId === event.id)) {
+      this.store.events.push(eventRecordFromEvent(event, listing.id));
+    }
     this.store.listings = this.store.listings.filter((existing) => existing.id !== listing.id);
     this.store.listings.push(listing);
-    if (payment) {
-      payment.listingId = listing.id;
-      payment.paymentStatus = "consumed";
-    }
     return listing;
   }
 
   async updateListing(id: string, event: NostrEvent) {
-    const listing = await this.createListingFromEvent(event, null);
+    const listing = await this.createListingFromEvent(event);
     const now = new Date().toISOString();
     const existingIndex = this.store.listings.findIndex((item) => item.id === id || item.eventId === id);
     if (existingIndex >= 0) {
@@ -295,7 +293,7 @@ class SupabaseRepository {
     return sellerFromRow(data);
   }
 
-  async createListingFromEvent(event: NostrEvent, payment?: ListingFeePayment | null) {
+  async createListingFromEvent(event: NostrEvent) {
     const client = this.requireClient();
     const seller = await this.upsertSeller({ pubkey: event.pubkey });
     const listing = listingFromEvent(event, seller);
@@ -306,15 +304,10 @@ class SupabaseRepository {
     });
     if (listingError) throw listingError;
 
-    const { error: eventError } = await client.from("listing_events").insert(eventRecordToRow(eventRecord));
+    const { error: eventError } = await client
+      .from("listing_events")
+      .upsert(eventRecordToRow(eventRecord), { onConflict: "event_id", ignoreDuplicates: true });
     if (eventError) throw eventError;
-
-    if (payment) {
-      await client
-        .from("listing_fee_payments")
-        .update({ listing_id: listing.id, payment_status: "consumed" })
-        .eq("id", payment.id);
-    }
 
     return listing;
   }

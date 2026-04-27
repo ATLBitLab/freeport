@@ -4,7 +4,7 @@ const endpoints = [
   ["GET", "/api/search?q=", "Search active listings with the same filter shape."],
   ["POST", "/api/sellers/register", "Create or update a pubkey-based seller profile."],
   ["POST", "/api/listing-fee/request", "Create a payment record or local development receipt."],
-  ["POST", "/api/listings", "Publish a signed listing event. Production is L402-gated."],
+  ["POST", "/api/listings", "Publish a signed listing event. Production uses L402 deferred settlement."],
   ["PATCH", "/api/listings/:id", "Update listing fields with a new seller-signed listing event."],
   ["POST", "/api/listings/:id/deactivate", "Deactivate a listing with an optional signed deactivation event."],
   ["POST", "/api/events/verify", "Verify event id and Schnorr signature."],
