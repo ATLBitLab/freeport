@@ -13,7 +13,7 @@
     "freeport:seed": "tsx scripts/seed-demo.ts"
   },
   "dependencies": {
-    "@moneydevkit/nextjs": "^0.16.0",
+    "@moneydevkit/nextjs": "^0.17.0",
     "@noble/hashes": "^2.2.0",
     "@noble/secp256k1": "^3.1.0",
     "@supabase/supabase-js": "^2.104.1",
