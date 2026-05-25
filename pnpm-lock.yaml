@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@moneydevkit/nextjs':
-        specifier: ^0.16.0
-        version: 0.16.0(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(next@16.2.4(@babel/core@7.29.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+        specifier: ^0.18.0
+        version: 0.18.0(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(next@16.2.4(@babel/core@7.29.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       '@noble/hashes':
         specifier: ^2.2.0
         version: 2.2.0
@@ -549,86 +549,86 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@moneydevkit/api-contract@0.1.24':
-    resolution: {integrity: sha512-ciDRpFHM1PbPyAfAMY2G96/X8KA/RjVujs74zfcbnEhP1sqk2wDVBuyrNVs5NhPuZg4rjQigz5X9m5MMwF/ArQ==}
+  '@moneydevkit/api-contract@0.1.33':
+    resolution: {integrity: sha512-5PmpR2rIxMBFN8Jz7XY4NPuhBCTQ4b10xkRe2Ae+xt2bV9/QTfTt+kmnvWhVK79Bst2l/mU5nfIbO/6PzB3g8g==}
     engines: {node: '>=18'}
 
-  '@moneydevkit/core@0.16.0':
-    resolution: {integrity: sha512-be3x2ZVu6V27MepWorCHmKI/xUSZ5n3T46cLWl+Mf9WPjs+nVoa73S3WPqcF9xFjX3F7un+lH3Df7m0GHS9O4g==}
+  '@moneydevkit/core@0.18.0':
+    resolution: {integrity: sha512-HeUFSZXQVzM8d+PGcH9yu7WMsF9NBLlPc2gWow2rSLDOxnmVQW6/8DDADrOEEBuFdbvIXsJgPs9UjteJMflE8Q==}
     peerDependencies:
       react: ^18 || ^19
       react-dom: ^18 || ^19
 
-  '@moneydevkit/lightning-js-android-arm64@0.1.81':
-    resolution: {integrity: sha512-WXVxxQFvmxNTTMu/Z+xo5Np1lAy3B8n5X1kUuP61+Jz0bdes7lFq34PF2ktp2I4y0RqnpMLrkPTsB+xc1Em5cQ==}
+  '@moneydevkit/lightning-js-android-arm64@0.1.84':
+    resolution: {integrity: sha512-bqHvLmUhPzlDW8jyY/eZWlOc9jH3W4/fj+KDQdj9XShjRbv4ay/js4rr50MH73ulaF/tYfqamhh9yC2pdS7BKg==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [android]
 
-  '@moneydevkit/lightning-js-darwin-arm64@0.1.81':
-    resolution: {integrity: sha512-5o6kx6Ws/2G3e3a8CK/Ns5EZ0DjlIqTpuSIMywso/MV4kZgJpiLUCjVNDat5t5jwxRiFR1sWEb7zQ2/xil9ytw==}
+  '@moneydevkit/lightning-js-darwin-arm64@0.1.84':
+    resolution: {integrity: sha512-yrw4bkbU77yd0jvcVxs7YHjoWt1O5IVf01p+zJrQjy/vfcIyM1wzLgZkhTrbMonpoQegOkgtOgE4xMN8wQ4XQw==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [darwin]
 
-  '@moneydevkit/lightning-js-darwin-x64@0.1.81':
-    resolution: {integrity: sha512-3v7DVzCCNF42isst5LzcWIzXi7Nt8kj2yQb76+pV29sMWwT5sKtzXat7vchgPcn/b5JLqUQ1gjtpaIpipb+reA==}
+  '@moneydevkit/lightning-js-darwin-x64@0.1.84':
+    resolution: {integrity: sha512-gYV71XZed10BUs5wCAt1UeeTAuhJ+/tZE8oyz3Dh4aS865FV4iKET0S5z+dJnqSMdfnd7d1OplFsv7hFjyIrGA==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [darwin]
 
-  '@moneydevkit/lightning-js-linux-arm64-gnu@0.1.81':
-    resolution: {integrity: sha512-BdqbxCpVt93ZlqUgv2eVLZM/Js+YehQ70WjYmtoLnPEklxfDa2/6CU4OpXNa1f6yQyx/Iu8dIFqi2PWWEYDUEQ==}
+  '@moneydevkit/lightning-js-linux-arm64-gnu@0.1.84':
+    resolution: {integrity: sha512-nuYbg89hU+CXHOIeYr+iODuL/GC1twUn8aJO3m4n72xtXR15Z0Wf3CWkgDPd0rI19hrpnikYZGjCekVT0hts9Q==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
     libc: [glibc]
 
-  '@moneydevkit/lightning-js-linux-arm64-musl@0.1.81':
-    resolution: {integrity: sha512-hPvl1OI0R0UhiN33ADvBgsdQyf8IMzrtjkAysFQ3PfUm4dYYbNM4iMikRaKLd2355xPGo2HdmPpEK6EJRLf67g==}
+  '@moneydevkit/lightning-js-linux-arm64-musl@0.1.84':
+    resolution: {integrity: sha512-Rtx+dDjGJyOukY/ZBhSNAJPUJY62tCpwguwnfulZurWQpR1d1Efr9AVPdA0OXjeYlgFask1qldGT7Z1aKP3Zwg==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
     libc: [musl]
 
-  '@moneydevkit/lightning-js-linux-x64-gnu@0.1.81':
-    resolution: {integrity: sha512-WJorJIG9bPPqfk64INCDMDouXATb5OrDzEB4pgZQQxJ7ongf/M0UtQq0IEDoQ1dM77BTxOE+tsPkWHyxqU46Ig==}
+  '@moneydevkit/lightning-js-linux-x64-gnu@0.1.84':
+    resolution: {integrity: sha512-zB9PK7tVI53QPGByKiTt5A5Y9jiKByhOKvn6aB3MR4dhShI6C31kKRAxWibiSxMoigd/cghgoKhOTDbKLEGLuw==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
     libc: [glibc]
 
-  '@moneydevkit/lightning-js-linux-x64-musl@0.1.81':
-    resolution: {integrity: sha512-0lTdKrxcST5YCFg7EqMGRBOnQ7NzsBgVuzzTOJajrZ5I0Th7H4SpdSslhc9CgJTBnARWGfjgh0qHS5fK7GCX5Q==}
+  '@moneydevkit/lightning-js-linux-x64-musl@0.1.84':
+    resolution: {integrity: sha512-Oeo7qY66TYaA2j+aXLheq/GWitO1KyPsqo9pGERqU9lsKU3Jq5NygDqq8kfGKmbGhENLte6lRGtIehbXXB0Eww==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
     libc: [musl]
 
-  '@moneydevkit/lightning-js-win32-arm64-msvc@0.1.81':
-    resolution: {integrity: sha512-0Mi1RqO3STYU7uaT8K82QKoTaaaleePGzpyWPUvu3G5Ck4NxUvPXddve7ErIqOO/ff+4K9x/GVxqiq/DdFLv7A==}
+  '@moneydevkit/lightning-js-win32-arm64-msvc@0.1.84':
+    resolution: {integrity: sha512-dcgUQQfNtKLRHMh3TXpn7C62v20nES8ttqy9cr2caaNzkLvbHsYf4W4rBPm1NfDQrM55Oo+tN/aYAorzpNk4BQ==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [win32]
 
-  '@moneydevkit/lightning-js-win32-ia32-msvc@0.1.81':
-    resolution: {integrity: sha512-IE2qEq9RZpTqFNmIfoLD240AqlpOk9c8HOc7qVe4VmuM9j6SqGSd6XfDSOReWhm3iafOuKE3Azrj4z9yNGOvIA==}
+  '@moneydevkit/lightning-js-win32-ia32-msvc@0.1.84':
+    resolution: {integrity: sha512-uzOp6lqwrPivYqj1deRJSNKLtwyY7EUUo1CtFdk0d5j9dLYrvs3gC/ga+i1L79AbcUrhjP04/HCKONEejO8bdA==}
     engines: {node: '>= 10'}
     cpu: [ia32]
     os: [win32]
 
-  '@moneydevkit/lightning-js-win32-x64-msvc@0.1.81':
-    resolution: {integrity: sha512-xA52VnzqkDOyHs6cdmXZeL+nHamBRaX5LDA+TbD+5zt1giIeKERkAV+UrwZLEuziAp0SXOjPxoIvKj/KIKZLhA==}
+  '@moneydevkit/lightning-js-win32-x64-msvc@0.1.84':
+    resolution: {integrity: sha512-lGjmOU9e1EZz8MqDe7mWstz3nR/PelxK7yHHZaNRGqNFEzmcxtEhmRtzm9GUteVyiCkW+XT1Vfzc5J7GiQ7Arw==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [win32]
 
-  '@moneydevkit/lightning-js@0.1.81':
-    resolution: {integrity: sha512-bdNvtFJi7703hr5z/duaSEY9WQxU40xzOixzYCxFPnlmtp22IuL+Y5gMe5SCW+MsRAtEwSeQN2jFbiK5kBbZNw==}
+  '@moneydevkit/lightning-js@0.1.84':
+    resolution: {integrity: sha512-KjhyTAIE55cnwdc8lDS1oUoZjhHotS6knGWp18KPYEWSPtNpJhT9RahkF2uiO1RFvuePGWFcbD9fQRGJwgTlbA==}
     engines: {node: '>= 10'}
 
-  '@moneydevkit/nextjs@0.16.0':
-    resolution: {integrity: sha512-yW8TLVW15A7e6MBIZWIGhAZlHuiUGp0eb/rKKGG2RGp0KXQD0tV8H/d2aJhEmFpmciZVkfAsH3wujITQLXb6KA==}
+  '@moneydevkit/nextjs@0.18.0':
+    resolution: {integrity: sha512-l53d49rmSfPsCWl5XwJM+G5f3COxjSumF5hlIdW6OQnzI7AYcq6WS/oKj9UeAiU6e/TIGmjLvpqUtiqdaq1voQ==}
     peerDependencies:
       next: ^15 || ^16
       react: ^18 || ^19
@@ -718,6 +718,9 @@ packages:
     resolution: {integrity: sha512-nn5ozdjYQpUCZlWGuxcJY/KpxkWQs4DcbMCmKojjyrYDEAGy4Ce19NN4v5MduafTwJlbKc99UA8YhSVqq9yPZA==}
     engines: {node: '>=12.4.0'}
 
+  '@orpc/client@1.13.6':
+    resolution: {integrity: sha512-M6lYM6fJUFp9GR+It/qglYTeXwspb6sGj46xXWHqHS6iDVquqju0bdYuLOfHx8CGJcUSzi0aKUcqMXiGJhBG3w==}
+
   '@orpc/client@1.3.0':
     resolution: {integrity: sha512-xFrhgHuE7NJMwdr+HtDUoULCSa3qgNMRaOVP9UsjIPhjEiu/7yYQAopePbqZVh6H135VDuG1sKxx3PX5+fqPIQ==}
 
@@ -735,8 +738,19 @@ packages:
       ws:
         optional: true
 
+  '@orpc/shared@1.13.6':
+    resolution: {integrity: sha512-XqpXPgmtkg2tviDXZC13Y4a3B0D5r1yuG4Q2qPG3gM1dargxob6/aSIeKE6rs1tNXOoI+IpJaGV53EWWB+x+iA==}
+    peerDependencies:
+      '@opentelemetry/api': '>=1.9.0'
+    peerDependenciesMeta:
+      '@opentelemetry/api':
+        optional: true
+
   '@orpc/shared@1.3.0':
     resolution: {integrity: sha512-QIFw16fFrynabVbcuK8+t68PvSYkpltBcD1R+9sY0UGKFuk5dVLkRBziBqfix9uDogpEwrk05IovMFCppO1WzA==}
+
+  '@orpc/standard-server-fetch@1.13.6':
+    resolution: {integrity: sha512-O0bK4crjEOU9H4LzJ2abMjku3dvEhs8tcLXP/W5NXyH+Wm7qjBjDr6psxZ3YuaWdVbfd/P7CHtvw2rQDHJCNfQ==}
 
   '@orpc/standard-server-fetch@1.3.0':
     resolution: {integrity: sha512-p5FKm/nc0ZwvVWUEEPjN/SCK/4fYP3wWoP/R4/kEFt+hDxfBIYOq7iwUmyi1Gx0DxwXMjy60o+skCDez3Mmzmw==}
@@ -744,8 +758,14 @@ packages:
   '@orpc/standard-server-node@1.3.0':
     resolution: {integrity: sha512-00X61ix7/MFKCFyf5SvTowRJodQZ+5CXGIhLZpGAEj/AjsLCr0Z7dfsK2bgB16fwHvv+LkQMaaD3vwKVmohAMA==}
 
+  '@orpc/standard-server-peer@1.13.6':
+    resolution: {integrity: sha512-WTqjNS6A9sxR4HVxWUb9ZoBHeQiesHeANmVBFdM/QjAaPUZYKn6WACYU6Q2eGmsCUeTQFfMssk0BG2EsgRNEYw==}
+
   '@orpc/standard-server-peer@1.3.0':
     resolution: {integrity: sha512-tiI2Ds59qvHVC4BpcF797Z3w7pMY75yZjmSqIYnYEak3MP6ThstUyQX6bzpON/9GcDyZtw2nr3+BklBHKxNXGQ==}
+
+  '@orpc/standard-server@1.13.6':
+    resolution: {integrity: sha512-GNYZXCWxYLVHsxBWR+bg5F12vDCsQghqxbqoFpMnA4goe58dugNWmuxM+aSDbI0D81YxkKDULSqft5S+GWi5ww==}
 
   '@orpc/standard-server@1.3.0':
     resolution: {integrity: sha512-02NjLPsHmME5x7zYcd1FuZW/WTlAgkF6MBhZXHImosAZdGcVddDVhRLtYWud/GFc+u5oyq7i/6u2+2j6QEnpcA==}
@@ -2613,6 +2633,10 @@ packages:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
 
+  tagged-tag@1.0.0:
+    resolution: {integrity: sha512-yEFYrVhod+hdNyx7g5Bnkkb0G6si8HJurOoOEgC8B/O0uXLHlaey/65KRv6cuWBNhBgHKAROVpc7QyYqE5gFng==}
+    engines: {node: '>=20'}
+
   tailwind-merge@3.5.0:
     resolution: {integrity: sha512-I8K9wewnVDkL1NTGoqWmVEIlUcB9gFriAEkXkfCjX5ib8ezGxtR3xD7iZIxrfArjEsH7F1CHD4RFUtxefdqV/A==}
 
@@ -2655,6 +2679,10 @@ packages:
   type-fest@4.41.0:
     resolution: {integrity: sha512-TeTSQ6H5YHvpqVwBRcnLDCBnDOHWYu7IvGbHT6N8AOymcr9PJGjc1GTtiWZTYg0NCgYwvnYWEkVChQAr9bjfwA==}
     engines: {node: '>=16'}
+
+  type-fest@5.6.0:
+    resolution: {integrity: sha512-8ZiHFm91orbSAe2PSAiSVBVko18pbhbiB3U9GglSzF/zCGkR+rxpHx6sEMCUm4kxY4LjDIUGgCfUMtwfZfjfUA==}
+    engines: {node: '>=20'}
 
   typed-array-buffer@1.0.3:
     resolution: {integrity: sha512-nAYYwfY3qnzX30IkA6AQZjVbtK6duGontcQm1WSG1MD94YLqK0515GNApXkoxKOWMusVssAHWLh9SeaoefYFGw==}
@@ -3183,17 +3211,17 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@moneydevkit/api-contract@0.1.24':
+  '@moneydevkit/api-contract@0.1.33':
     dependencies:
       '@orpc/contract': 1.3.0
       zod: 3.25.76
 
-  '@moneydevkit/core@0.16.0(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)':
+  '@moneydevkit/core@0.18.0(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)':
     dependencies:
       '@hookform/resolvers': 5.2.2(react-hook-form@7.73.1(react@19.2.4))
-      '@moneydevkit/api-contract': 0.1.24
-      '@moneydevkit/lightning-js': 0.1.81
-      '@orpc/client': 1.3.0
+      '@moneydevkit/api-contract': 0.1.33
+      '@moneydevkit/lightning-js': 0.1.84
+      '@orpc/client': 1.13.6
       '@orpc/contract': 1.3.0
       '@orpc/server': 1.3.0(ws@8.20.0)
       '@radix-ui/react-collapsible': 1.1.12(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -3214,62 +3242,63 @@ snapshots:
       ws: 8.20.0
       zod: 3.25.76
     transitivePeerDependencies:
+      - '@opentelemetry/api'
       - '@types/react'
       - '@types/react-dom'
       - bufferutil
       - crossws
       - utf-8-validate
 
-  '@moneydevkit/lightning-js-android-arm64@0.1.81':
+  '@moneydevkit/lightning-js-android-arm64@0.1.84':
     optional: true
 
-  '@moneydevkit/lightning-js-darwin-arm64@0.1.81':
+  '@moneydevkit/lightning-js-darwin-arm64@0.1.84':
     optional: true
 
-  '@moneydevkit/lightning-js-darwin-x64@0.1.81':
+  '@moneydevkit/lightning-js-darwin-x64@0.1.84':
     optional: true
 
-  '@moneydevkit/lightning-js-linux-arm64-gnu@0.1.81':
+  '@moneydevkit/lightning-js-linux-arm64-gnu@0.1.84':
     optional: true
 
-  '@moneydevkit/lightning-js-linux-arm64-musl@0.1.81':
+  '@moneydevkit/lightning-js-linux-arm64-musl@0.1.84':
     optional: true
 
-  '@moneydevkit/lightning-js-linux-x64-gnu@0.1.81':
+  '@moneydevkit/lightning-js-linux-x64-gnu@0.1.84':
     optional: true
 
-  '@moneydevkit/lightning-js-linux-x64-musl@0.1.81':
+  '@moneydevkit/lightning-js-linux-x64-musl@0.1.84':
     optional: true
 
-  '@moneydevkit/lightning-js-win32-arm64-msvc@0.1.81':
+  '@moneydevkit/lightning-js-win32-arm64-msvc@0.1.84':
     optional: true
 
-  '@moneydevkit/lightning-js-win32-ia32-msvc@0.1.81':
+  '@moneydevkit/lightning-js-win32-ia32-msvc@0.1.84':
     optional: true
 
-  '@moneydevkit/lightning-js-win32-x64-msvc@0.1.81':
+  '@moneydevkit/lightning-js-win32-x64-msvc@0.1.84':
     optional: true
 
-  '@moneydevkit/lightning-js@0.1.81':
+  '@moneydevkit/lightning-js@0.1.84':
     optionalDependencies:
-      '@moneydevkit/lightning-js-android-arm64': 0.1.81
-      '@moneydevkit/lightning-js-darwin-arm64': 0.1.81
-      '@moneydevkit/lightning-js-darwin-x64': 0.1.81
-      '@moneydevkit/lightning-js-linux-arm64-gnu': 0.1.81
-      '@moneydevkit/lightning-js-linux-arm64-musl': 0.1.81
-      '@moneydevkit/lightning-js-linux-x64-gnu': 0.1.81
-      '@moneydevkit/lightning-js-linux-x64-musl': 0.1.81
-      '@moneydevkit/lightning-js-win32-arm64-msvc': 0.1.81
-      '@moneydevkit/lightning-js-win32-ia32-msvc': 0.1.81
-      '@moneydevkit/lightning-js-win32-x64-msvc': 0.1.81
+      '@moneydevkit/lightning-js-android-arm64': 0.1.84
+      '@moneydevkit/lightning-js-darwin-arm64': 0.1.84
+      '@moneydevkit/lightning-js-darwin-x64': 0.1.84
+      '@moneydevkit/lightning-js-linux-arm64-gnu': 0.1.84
+      '@moneydevkit/lightning-js-linux-arm64-musl': 0.1.84
+      '@moneydevkit/lightning-js-linux-x64-gnu': 0.1.84
+      '@moneydevkit/lightning-js-linux-x64-musl': 0.1.84
+      '@moneydevkit/lightning-js-win32-arm64-msvc': 0.1.84
+      '@moneydevkit/lightning-js-win32-ia32-msvc': 0.1.84
+      '@moneydevkit/lightning-js-win32-x64-msvc': 0.1.84
 
-  '@moneydevkit/nextjs@0.16.0(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(next@16.2.4(@babel/core@7.29.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)':
+  '@moneydevkit/nextjs@0.18.0(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(next@16.2.4(@babel/core@7.29.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)':
     dependencies:
       '@hookform/resolvers': 5.2.2(react-hook-form@7.73.1(react@19.2.4))
-      '@moneydevkit/api-contract': 0.1.24
-      '@moneydevkit/core': 0.16.0(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
-      '@moneydevkit/lightning-js': 0.1.81
-      '@orpc/client': 1.3.0
+      '@moneydevkit/api-contract': 0.1.33
+      '@moneydevkit/core': 0.18.0(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      '@moneydevkit/lightning-js': 0.1.84
+      '@orpc/client': 1.13.6
       '@orpc/contract': 1.3.0
       '@radix-ui/react-collapsible': 1.1.12(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       '@radix-ui/react-dialog': 1.1.15(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -3289,6 +3318,7 @@ snapshots:
       vaul: 1.1.2(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       zod: 3.25.76
     transitivePeerDependencies:
+      - '@opentelemetry/api'
       - '@types/react'
       - '@types/react-dom'
       - bufferutil
@@ -3350,6 +3380,15 @@ snapshots:
 
   '@nolyfill/is-core-module@1.0.39': {}
 
+  '@orpc/client@1.13.6':
+    dependencies:
+      '@orpc/shared': 1.13.6
+      '@orpc/standard-server': 1.13.6
+      '@orpc/standard-server-fetch': 1.13.6
+      '@orpc/standard-server-peer': 1.13.6
+    transitivePeerDependencies:
+      - '@opentelemetry/api'
+
   '@orpc/client@1.3.0':
     dependencies:
       '@orpc/shared': 1.3.0
@@ -3375,10 +3414,22 @@ snapshots:
     optionalDependencies:
       ws: 8.20.0
 
+  '@orpc/shared@1.13.6':
+    dependencies:
+      radash: 12.1.1
+      type-fest: 5.6.0
+
   '@orpc/shared@1.3.0':
     dependencies:
       radash: 12.1.1
       type-fest: 4.41.0
+
+  '@orpc/standard-server-fetch@1.13.6':
+    dependencies:
+      '@orpc/shared': 1.13.6
+      '@orpc/standard-server': 1.13.6
+    transitivePeerDependencies:
+      - '@opentelemetry/api'
 
   '@orpc/standard-server-fetch@1.3.0':
     dependencies:
@@ -3390,10 +3441,23 @@ snapshots:
       '@orpc/shared': 1.3.0
       '@orpc/standard-server': 1.3.0
 
+  '@orpc/standard-server-peer@1.13.6':
+    dependencies:
+      '@orpc/shared': 1.13.6
+      '@orpc/standard-server': 1.13.6
+    transitivePeerDependencies:
+      - '@opentelemetry/api'
+
   '@orpc/standard-server-peer@1.3.0':
     dependencies:
       '@orpc/shared': 1.3.0
       '@orpc/standard-server': 1.3.0
+
+  '@orpc/standard-server@1.13.6':
+    dependencies:
+      '@orpc/shared': 1.13.6
+    transitivePeerDependencies:
+      - '@opentelemetry/api'
 
   '@orpc/standard-server@1.3.0':
     dependencies:
@@ -5429,6 +5493,8 @@ snapshots:
 
   supports-preserve-symlinks-flag@1.0.0: {}
 
+  tagged-tag@1.0.0: {}
+
   tailwind-merge@3.5.0: {}
 
   tailwindcss@4.2.4: {}
@@ -5469,6 +5535,10 @@ snapshots:
       prelude-ls: 1.2.1
 
   type-fest@4.41.0: {}
+
+  type-fest@5.6.0:
+    dependencies:
+      tagged-tag: 1.0.0
 
   typed-array-buffer@1.0.3:
     dependencies:
